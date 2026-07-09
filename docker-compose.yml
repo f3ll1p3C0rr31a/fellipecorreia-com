@@ -1,0 +1,12 @@
+services:
+  site:
+    build: .
+    image: fellipecorreia-site:latest
+    container_name: fellipecorreia-site
+    restart: unless-stopped
+    networks:
+      - nginx-proxy-manager_default
+
+networks:
+  nginx-proxy-manager_default:
+    external: true
