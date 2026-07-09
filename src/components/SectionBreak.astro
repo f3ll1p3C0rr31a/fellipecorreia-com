@@ -1,0 +1,35 @@
+---
+/**
+ * Divisor em ASCII art / box-drawing. Puramente decorativo (aria-hidden).
+ * Variantes: 'gradient' | 'nfo' | 'circuit' | 'wave'
+ */
+interface Props {
+  variant?: 'gradient' | 'nfo' | 'circuit' | 'wave';
+  label?: string;
+}
+const { variant = 'gradient', label } = Astro.props;
+
+const patterns = {
+  gradient: '░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░',
+  nfo: '·:·.·:·.·:·.·:·.·:·.·:·.·:·.·:·.·:·.·:·.·:·.·:·.·:·.·:·.·:·.·:·',
+  circuit: '─┬───┴───┬───┴───┬───┴───┬───┴───┬───┴───┬───┴───┬───┴───┬─',
+  wave: '/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\',
+} as const;
+---
+
+<div class="mx-auto max-w-6xl overflow-hidden px-4 py-8 sm:px-6" aria-hidden="true">
+  {
+    label ? (
+      <div class="flex items-center gap-3 font-mono text-xs text-royal">
+        <span class="whitespace-nowrap text-acid/70">{`// ${label}`}</span>
+        <span class="min-w-0 flex-1 select-none overflow-hidden text-ellipsis whitespace-nowrap">
+          {patterns[variant]}
+        </span>
+      </div>
+    ) : (
+      <div class="select-none overflow-hidden whitespace-nowrap text-center font-mono text-xs leading-none text-royal">
+        {patterns[variant]}
+      </div>
+    )
+  }
+</div>

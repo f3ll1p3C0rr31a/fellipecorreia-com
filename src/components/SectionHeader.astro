@@ -1,0 +1,29 @@
+---
+/**
+ * Cabeçalho de seção estilo prompt de terminal + título display.
+ * accent alterna o tom dominante da seção (magenta ↔ amarelo).
+ */
+import { site } from '../data/site';
+
+interface Props {
+  index: number;
+  id: string;
+  cmd: string;
+  title: string;
+  accent?: 'acid' | 'volt';
+}
+const { index, cmd, title, accent = 'acid' } = Astro.props;
+const nn = String(index).padStart(2, '0');
+const accentText = accent === 'acid' ? 'text-acid' : 'text-volt';
+---
+
+<header class="mb-10">
+  <p class="font-mono text-xs text-ash">
+    <span class={accentText}>{site.handle}</span><span class="text-royal">:~$</span>
+    <span class="text-bone">{cmd}</span>
+    <span class="animate-blink text-ash">▊</span>
+  </p>
+  <h2 class="mt-3 font-display text-3xl font-extrabold uppercase tracking-tight text-bone sm:text-4xl">
+    <span class={accentText}>{nn}.</span>{' '}{title}
+  </h2>
+</header>

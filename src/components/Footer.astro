@@ -1,0 +1,31 @@
+---
+import { getLangFromUrl, useTranslations, localizePath } from '../i18n/utils';
+import { site } from '../data/site';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-royal/40 px-4 py-10 font-mono text-xs text-ash sm:px-6">
+  <div class="mx-auto flex max-w-6xl flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div class="space-y-1">
+      <p class="text-bone">
+        <span class="text-acid">{site.handle}</span>:~$ <span class="text-ash">echo $STATUS</span>
+      </p>
+      <p class="text-ash/70">{t('footer.built')}</p>
+    </div>
+
+    <div class="flex flex-col gap-1 sm:items-end">
+      <div class="flex gap-4">
+        <a href={site.social.github} target="_blank" rel="noopener" class="hover:text-acid">github</a>
+        <a href={site.social.linkedin} target="_blank" rel="noopener" class="hover:text-acid">linkedin</a>
+        <a href={`mailto:${site.email}`} class="hover:text-acid">email</a>
+        <a href={localizePath(lang, '/cv')} class="text-volt hover:text-acid">cv</a>
+      </div>
+      <p class="text-royal">
+        © {year} {site.shortName} — {t('footer.rights')}
+      </p>
+    </div>
+  </div>
+</footer>

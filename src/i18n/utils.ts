@@ -12,6 +12,13 @@ export function useTranslations(lang: Lang) {
   };
 }
 
+/** Prefixa um caminho com o locale (PT na raiz, EN sob /en/). */
+export function localizePath(lang: Lang, path = '/'): string {
+  const clean = path.startsWith('/') ? path : `/${path}`;
+  if (lang === 'pt') return clean;
+  return clean === '/' ? '/en' : `/en${clean}`;
+}
+
 /** Caminho equivalente da página no outro idioma (pro toggle PT/EN). */
 export function altLangPath(url: URL): { lang: Lang; path: string } {
   const lang = getLangFromUrl(url);

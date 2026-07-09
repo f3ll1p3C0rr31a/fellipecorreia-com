@@ -1,0 +1,80 @@
+---
+import GlitchText from './fx/GlitchText.astro';
+import { getLangFromUrl, useTranslations, localizePath } from '../i18n/utils';
+import { site } from '../data/site';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const cv = localizePath(lang, '/cv');
+---
+
+<section
+  id="topo"
+  class="relative flex min-h-screen items-center overflow-hidden px-4 pt-12 sm:px-6"
+>
+  <div class="mx-auto w-full max-w-6xl py-20">
+    {/* status */}
+    <p class="mb-6 flex items-center gap-2.5 font-pixel text-[9px] leading-none text-volt">
+      <span class="relative flex size-2">
+        <span class="absolute inline-flex size-full animate-ping rounded-full bg-volt opacity-60"></span>
+        <span class="relative inline-flex size-2 rounded-full bg-volt"></span>
+      </span>
+      {t('hero.available')}
+    </p>
+
+    {/* nome */}
+    <h1
+      class="font-display text-5xl font-extrabold uppercase leading-[0.95] tracking-tight sm:text-7xl lg:text-8xl"
+    >
+      <GlitchText text="Fellipe" class="block" />
+      <GlitchText text="Correia" class="block text-acid" />
+    </h1>
+
+    {/* cargo */}
+    <p class="mt-6 font-mono text-sm text-bone sm:text-base">
+      <span class="text-royal">&gt;</span>
+      {t('hero.role')}
+    </p>
+
+    {/* tagline */}
+    <p class="mt-4 max-w-2xl font-mono text-sm leading-relaxed text-ash sm:text-base">
+      {t('hero.tagline')}
+    </p>
+
+    {/* CTAs dos currículos — Infra/Dev primário */}
+    <div class="mt-9 flex flex-wrap items-center gap-3">
+      <a
+        href={`${cv}#dev`}
+        class="group border border-acid/60 bg-acid/5 px-5 py-2.5 font-mono text-xs text-acid transition-colors hover:bg-acid hover:text-void"
+      >
+        <span class="text-acid/60 group-hover:text-void/60">./</span>{t('hero.cv.dev')}
+      </a>
+      <a
+        href={`${cv}#growth`}
+        class="group border border-royal/60 px-5 py-2.5 font-mono text-xs text-ash transition-colors hover:border-volt/60 hover:text-volt"
+      >
+        <span class="text-royal group-hover:text-volt/60">./</span>{t('hero.cv.growth')}
+      </a>
+    </div>
+
+    {/* social */}
+    <div class="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 font-mono text-xs text-ash">
+      <a href={site.social.github} target="_blank" rel="noopener" class="transition-colors hover:text-acid">
+        github <span class="text-royal">↗</span>
+      </a>
+      <a href={site.social.linkedin} target="_blank" rel="noopener" class="transition-colors hover:text-acid">
+        linkedin <span class="text-royal">↗</span>
+      </a>
+      <a href={`mailto:${site.email}`} class="transition-colors hover:text-acid">
+        email <span class="text-royal">↗</span>
+      </a>
+      <span class="text-royal">|</span>
+      <span class="text-ash/70">{site.location[lang]}</span>
+    </div>
+  </div>
+
+  {/* seta scroll */}
+  <div class="absolute inset-x-0 bottom-6 flex justify-center">
+    <span class="animate-flicker font-mono text-xs text-royal">▼ scroll</span>
+  </div>
+</section>

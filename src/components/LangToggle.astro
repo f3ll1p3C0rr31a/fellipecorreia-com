@@ -1,0 +1,16 @@
+---
+import { altLangPath, getLangFromUrl } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const alt = altLangPath(Astro.url);
+---
+
+<div class="flex items-center gap-1.5 font-mono text-xs">
+  <span class:list={['transition-colors', lang === 'pt' ? 'text-acid' : 'text-ash']}>
+    {lang === 'pt' ? 'PT' : <a href={alt.path} class="hover:text-acid">PT</a>}
+  </span>
+  <span class="text-royal">/</span>
+  <span class:list={['transition-colors', lang === 'en' ? 'text-acid' : 'text-ash']}>
+    {lang === 'en' ? 'EN' : <a href={alt.path} class="hover:text-acid">EN</a>}
+  </span>
+</div>

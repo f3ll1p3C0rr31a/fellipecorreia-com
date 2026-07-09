@@ -1,0 +1,38 @@
+---
+import SectionHeader from './SectionHeader.astro';
+import ProjectCard from './ProjectCard.astro';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { technicalProjects, siteProjects } from '../data/projects';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<section id="projetos" class="mx-auto max-w-6xl scroll-mt-16 px-4 py-16 sm:px-6">
+  <SectionHeader
+    index={3}
+    id="projetos"
+    cmd="ls -la ~/projetos"
+    title={lang === 'pt' ? 'projetos' : 'projects'}
+    accent="acid"
+  />
+
+  {/* pista 1: técnicos */}
+  <div class="mb-4 flex items-center gap-3 font-mono text-xs">
+    <span class="text-acid">// {t('projects.technical')}</span>
+    <span class="h-px flex-1 bg-royal/40"></span>
+  </div>
+  <div class="grid gap-4 sm:grid-cols-2">
+    {technicalProjects.map((p) => <ProjectCard project={p} />)}
+  </div>
+
+  {/* pista 2: sites entregues */}
+  <div class="mb-4 mt-12 flex items-center gap-3 font-mono text-xs">
+    <span class="text-volt">// {t('projects.sites')}</span>
+    <span class="text-royal">— {t('projects.sites.hint')}</span>
+    <span class="h-px flex-1 bg-royal/40"></span>
+  </div>
+  <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    {siteProjects.map((p) => <ProjectCard project={p} compact />)}
+  </div>
+</section>

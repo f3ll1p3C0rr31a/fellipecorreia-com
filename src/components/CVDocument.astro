@@ -1,0 +1,133 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { site } from '../data/site';
+import { cvMeta, cvStack, education, cvLanguages, differentials, type Track } from '../data/cv';
+import { jobs } from '../data/experience';
+import { technicalProjects } from '../data/projects';
+
+interface Props {
+  track: Track;
+}
+const { track } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const meta = cvMeta[track];
+const stack = cvStack(track);
+---
+
+<article class:list={['cv-doc', `cv-${track}`]}>
+  {/* cabeçalho */}
+  <header class="cv-head">
+    <h1 class="font-display text-3xl font-extrabold uppercase tracking-tight text-bone sm:text-4xl">
+      {site.name}
+    </h1>
+    <p class="mt-1 font-mono text-xs text-acid sm:text-sm">{meta.title[lang]}</p>
+    <p class="mt-3 flex flex-wrap gap-x-3 gap-y-1 font-mono text-[11px] text-ash">
+      <span>{site.location[lang]}</span><span class="text-royal">·</span>
+      <a href={`mailto:${site.email}`} class="hover:text-acid">{site.email}</a><span class="text-royal">·</span>
+      <span>{site.phone}</span><span class="text-royal">·</span>
+      <a href={site.social.github} class="hover:text-acid">github.com/f3ll1p3C0rr31a</a><span class="text-royal">·</span>
+      <a href={site.social.linkedin} class="hover:text-acid">/in/f3llipecorreia</a>
+    </p>
+  </header>
+
+  {/* resumo */}
+  <section class="cv-sec">
+    <h2 class="cv-h2">{t('cv.sec.summary')}</h2>
+    <p class="font-mono text-xs leading-relaxed text-bone/90">{meta.summary[lang]}</p>
+  </section>
+
+  {/* áreas */}
+  <section class="cv-sec">
+    <h2 class="cv-h2">{t('cv.sec.areas')}</h2>
+    <ul class="grid gap-x-6 gap-y-1 sm:grid-cols-2">
+      {meta.areas[lang].map((a) => (
+        <li class="flex gap-2 font-mono text-xs text-bone/90"><span class="text-acid">▹</span>{a}</li>
+      ))}
+    </ul>
+  </section>
+
+  {/* projetos */}
+  <section class="cv-sec">
+    <h2 class="cv-h2">{t('cv.sec.projects')}</h2>
+    <div class="space-y-3">
+      {technicalProjects.map((p) => (
+        <div>
+          <p class="font-mono text-xs font-bold text-bone">
+            {p.title}
+            <span class="font-normal text-royal"> · {p.stack.slice(0, 5).join(', ')}</span>
+          </p>
+          <p class="font-mono text-[11px] leading-relaxed text-ash">{p.tagline[lang]}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  {/* stack */}
+  <section class="cv-sec">
+    <h2 class="cv-h2">{t('cv.sec.stack')}</h2>
+    <dl class="space-y-1">
+      {stack.map((s) => (
+        <div class="flex flex-col gap-x-2 sm:flex-row">
+          <dt class="w-32 shrink-0 font-mono text-xs font-bold text-acid">{s.label}</dt>
+          <dd class="font-mono text-xs text-bone/90">{s.items}</dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+
+  {/* experiência */}
+  <section class="cv-sec">
+    <h2 class="cv-h2">{t('cv.sec.experience')}</h2>
+    <div class="space-y-4">
+      {jobs.map((job) => (
+        <div>
+          <p class="flex flex-wrap items-baseline gap-x-2 font-mono text-xs">
+            <span class="font-bold text-bone">{job.role[lang]}</span>
+            <span class="text-royal">·</span>
+            <span class="text-acid">{job.company}</span>
+            {job.brands && <span class="text-royal">({job.brands})</span>}
+            <span class="ml-auto text-ash">{job.period}{job.current ? t('exp.current') : ''}</span>
+          </p>
+          <ul class="mt-1 space-y-0.5">
+            {job.highlights[lang].map((h) => (
+              <li class="flex gap-2 font-mono text-[11px] leading-relaxed text-bone/80"><span class="text-royal">▹</span>{h}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  {/* formação */}
+  <section class="cv-sec">
+    <h2 class="cv-h2">{t('cv.sec.education')}</h2>
+    <ul class="space-y-1">
+      {education.map((e) => (
+        <li class="font-mono text-xs text-bone/90">
+          <span class="font-bold">{e.course[lang]}</span> — {e.school}
+          {e.note && <span class="text-ash"> ({e.note[lang]})</span>}
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  {/* idiomas + diferenciais */}
+  <section class="cv-sec">
+    <h2 class="cv-h2">{t('cv.sec.languages')}</h2>
+    <p class="font-mono text-xs text-bone/90">
+      {cvLanguages.map((l, i) => (
+        <>{i > 0 && <span class="text-royal"> · </span>}{l.name[lang]} <span class="text-ash">({l.level[lang]})</span></>
+      ))}
+    </p>
+  </section>
+
+  <section class="cv-sec">
+    <h2 class="cv-h2">{t('cv.sec.differentials')}</h2>
+    <ul class="space-y-1">
+      {differentials[track][lang].map((d) => (
+        <li class="flex gap-2 font-mono text-xs text-bone/90"><span class="text-volt">★</span>{d}</li>
+      ))}
+    </ul>
+  </section>
+</article>

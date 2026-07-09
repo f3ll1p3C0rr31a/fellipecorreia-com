@@ -1,0 +1,23 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import type { Project } from '../data/projects';
+
+interface Props {
+  status: Project['status'];
+}
+const { status } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const map = {
+  online: { color: 'text-toxic', dot: 'bg-toxic', key: 'status.online' },
+  wip: { color: 'text-volt', dot: 'bg-volt', key: 'status.wip' },
+  archived: { color: 'text-ash', dot: 'bg-ash', key: 'status.archived' },
+} as const;
+const s = map[status];
+---
+
+<span class:list={['inline-flex items-center gap-1.5 font-mono text-[10px] tracking-wider', s.color]}>
+  <span class:list={['inline-block size-1.5 rounded-full', s.dot, status !== 'archived' && 'animate-pulse']}></span>
+  [{t(s.key as any)}]
+</span>

@@ -1,0 +1,48 @@
+---
+import LangToggle from './LangToggle.astro';
+import { getLangFromUrl, localizePath } from '../i18n/utils';
+import { navSections } from '../data/site';
+
+const lang = getLangFromUrl(Astro.url);
+const home = localizePath(lang, '/');
+---
+
+<header
+  class="fixed inset-x-0 top-0 z-40 border-b border-royal/40 bg-void/80 backdrop-blur-sm"
+>
+  <nav class="mx-auto flex h-12 max-w-6xl items-center justify-between px-4 font-mono text-xs sm:px-6">
+    <a href={home} class="group flex items-center gap-1.5 text-bone transition-colors hover:text-acid">
+      <span class="text-acid">▚</span>
+      <span class="font-semibold tracking-tight">FBC</span>
+      <span class="text-ash group-hover:text-volt">://</span>
+    </a>
+
+    <ul class="hidden items-center gap-5 md:flex">
+      {
+        navSections.map((s, i) => (
+          <li>
+            <a
+              href={`${home}#${s.id}`}
+              class="group text-ash transition-colors hover:text-bone"
+            >
+              <span class="text-royal group-hover:text-acid">
+                {String(i + 1).padStart(2, '0')}
+              </span>{' '}
+              {s[lang]}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="flex items-center gap-4">
+      <a
+        href={localizePath(lang, '/cv')}
+        class="hidden text-volt transition-colors hover:text-acid sm:inline"
+      >
+        ./cv
+      </a>
+      <LangToggle />
+    </div>
+  </nav>
+</header>

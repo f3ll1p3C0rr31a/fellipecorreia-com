@@ -1,0 +1,91 @@
+---
+import StatusBadge from './StatusBadge.astro';
+import { getLangFromUrl, useTranslations, localizePath } from '../i18n/utils';
+import type { Project } from '../data/projects';
+
+interface Props {
+  project: Project;
+  compact?: boolean;
+}
+const { project, compact = false } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const casePath = project.detail ? localizePath(lang, `/projetos/${project.slug}`) : null;
+const demoLabel = project.demo ? t('cta.demo') : project.demoAnchor ? t('projects.demo.internal') : null;
+const demoHref = project.demo ?? project.demoAnchor ?? null;
+const demoExternal = !!project.demo;
+---
+
+<article class="group h-full">
+  <div
+    class:list={[
+      'corrupt-card flex h-full flex-col border border-royal/50 bg-royal/10 transition-colors',
+      compact ? 'p-4' : 'p-5',
+    ]}
+  >
+    {/* topo */}
+    <div class="flex items-center justify-between">
+      <span class="font-mono text-[10px] tracking-widest text-royal">{project.asciiTag}</span>
+      <StatusBadge status={project.status} />
+    </div>
+
+    {/* título */}
+    <h3
+      class:list={[
+        'mt-3 font-display font-bold uppercase leading-tight tracking-tight text-bone',
+        compact ? 'text-lg' : 'text-xl sm:text-2xl',
+      ]}
+    >
+      <span class="corrupt-title" data-text={project.title}>{project.title}</span>
+    </h3>
+
+    {/* tagline */}
+    <p class="mt-2 flex-1 font-mono text-xs leading-relaxed text-ash sm:text-sm">
+      {project.tagline[lang]}
+    </p>
+
+    {/* stack */}
+    <ul class="mt-4 flex flex-wrap gap-1.5">
+      {
+        project.stack.slice(0, compact ? 4 : 99).map((s) => (
+          <li class="border border-royal/50 px-1.5 py-0.5 font-mono text-[10px] text-ash">{s}</li>
+        ))
+      }
+    </ul>
+
+    {/* ações */}
+    <div class="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-royal/30 pt-4 font-mono text-xs">
+      {
+        demoHref && (
+          <a
+            href={demoHref}
+            target={demoExternal ? '_blank' : undefined}
+            rel={demoExternal ? 'noopener' : undefined}
+            class="text-toxic transition-colors hover:text-acid"
+          >
+            [{demoLabel}] {demoExternal ? '↗' : '↓'}
+          </a>
+        )
+      }
+      {
+        casePath && (
+          <a href={casePath} class="text-acid transition-colors hover:text-volt">
+            [{t('projects.viewcase')}] →
+          </a>
+        )
+      }
+      {
+        project.sourcePublic && project.github ? (
+          <a href={project.github} target="_blank" rel="noopener" class="text-ash transition-colors hover:text-acid">
+            [{t('cta.source')}] ↗
+          </a>
+        ) : (
+          <span class="text-royal" title={t('projects.source.private')}>
+            [{t('cta.source')}] ⊘
+          </span>
+        )
+      }
+    </div>
+  </div>
+</article>
