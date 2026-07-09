@@ -1,0 +1,55 @@
+---
+/**
+ * Grain full-screen: 3 frames de ruído pré-gerados em baixa resolução,
+ * alternados a ~8fps. Nada é recalculado por frame. Reduced-motion:
+ * um frame estático.
+ */
+---
+
+<grain-overlay class="pointer-events-none fixed inset-0 z-50">
+  <canvas class="h-full w-full opacity-[0.06] mix-blend-overlay"></canvas>
+</grain-overlay>
+
+<script>
+  class GrainOverlay extends HTMLElement {
+    #raf = 0;
+
+    connectedCallback() {
+      const canvas = this.querySelector('canvas')!;
+      const ctx = canvas.getContext('2d')!;
+      const W = (canvas.width = 320);
+      const H = (canvas.height = 240);
+
+      const frames = Array.from({ length: 3 }, () => {
+        const img = ctx.createImageData(W, H);
+        const d = img.data;
+        for (let i = 0; i < d.length; i += 4) {
+          const v = (Math.random() * 255) | 0;
+          d[i] = d[i + 1] = d[i + 2] = v;
+          d[i + 3] = 255;
+        }
+        return img;
+      });
+
+      ctx.putImageData(frames[0], 0, 0);
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      let frame = 0;
+      let last = 0;
+      const loop = (t: number) => {
+        if (t - last > 125) {
+          frame = (frame + 1) % frames.length;
+          ctx.putImageData(frames[frame], 0, 0);
+          last = t;
+        }
+        this.#raf = requestAnimationFrame(loop);
+      };
+      this.#raf = requestAnimationFrame(loop);
+    }
+
+    disconnectedCallback() {
+      cancelAnimationFrame(this.#raf);
+    }
+  }
+  customElements.define('grain-overlay', GrainOverlay);
+</script>

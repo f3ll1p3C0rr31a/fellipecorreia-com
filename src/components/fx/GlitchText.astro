@@ -1,0 +1,39 @@
+---
+/**
+ * Texto com RGB-split intermitente. O CSS (global.css) faz o efeito;
+ * o JS só dispara bursts aleatórios de ~300ms. Reduced-motion recebe
+ * o split estático definido no CSS, sem JS rodando.
+ */
+interface Props {
+  text: string;
+  class?: string;
+}
+const { text, class: className } = Astro.props;
+---
+
+<glitch-text class:list={['glitch', className]} data-text={text}>{text}</glitch-text>
+
+<script>
+  class GlitchText extends HTMLElement {
+    #timer = 0;
+
+    connectedCallback() {
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      this.#schedule(600);
+    }
+
+    disconnectedCallback() {
+      clearTimeout(this.#timer);
+    }
+
+    #schedule(base: number) {
+      this.#timer = window.setTimeout(() => {
+        this.classList.add('is-glitching');
+        window.setTimeout(() => this.classList.remove('is-glitching'), 300);
+        // bursts espaçados: glitch raro lê melhor que glitch contínuo
+        this.#schedule(1800 + Math.random() * 3500);
+      }, base);
+    }
+  }
+  customElements.define('glitch-text', GlitchText);
+</script>

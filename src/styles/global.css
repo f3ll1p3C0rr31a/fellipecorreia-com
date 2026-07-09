@@ -1,0 +1,146 @@
+@import 'tailwindcss';
+
+@theme {
+  /* ── paleta ─────────────────────────────────────── */
+  --color-void: #11012e;      /* background base        */
+  --color-royal: #2a0c62;     /* superfícies, bordas    */
+  --color-acid: #ff018f;      /* accent primário        */
+  --color-volt: #ffcc00;      /* accent secundário      */
+  --color-bone: #e8e4f0;      /* texto principal        */
+  --color-ash: #9a8fc0;       /* texto secundário       */
+
+  /* ── tipografia ─────────────────────────────────── */
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+  --font-display: 'Unbounded Variable', sans-serif;
+  --font-pixel: 'Press Start 2P', monospace;
+
+  /* ── animações de assinatura ────────────────────── */
+  --animate-blink: blink 1.06s step-end infinite;
+  --animate-flicker: flicker 4s linear infinite;
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+  @keyframes flicker {
+    0%, 100% { opacity: 1; }
+    92% { opacity: 1; }
+    93% { opacity: 0.6; }
+    94% { opacity: 1; }
+    97% { opacity: 0.8; }
+    98% { opacity: 1; }
+  }
+}
+
+/* ═══ base ═══════════════════════════════════════════ */
+
+html {
+  background: var(--color-void);
+  color: var(--color-bone);
+  font-family: var(--font-mono);
+  scroll-behavior: smooth;
+  scrollbar-color: var(--color-royal) var(--color-void);
+}
+
+::selection {
+  background: var(--color-acid);
+  color: var(--color-void);
+}
+
+body {
+  cursor: crosshair;
+  overflow-x: hidden;
+}
+a, button, [role='button'], label, summary {
+  cursor: crosshair;
+}
+
+/* ═══ scanlines (CSS puro, sem JS) ═══════════════════ */
+
+.scanlines::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 2px,
+    rgb(0 0 0 / 0.09) 2px,
+    rgb(0 0 0 / 0.09) 3px
+  );
+}
+
+/* ═══ glitch text ════════════════════════════════════
+   Camadas RGB-split via pseudo-elementos; a island só
+   liga/desliga .is-glitching em bursts aleatórios.     */
+
+.glitch {
+  position: relative;
+  display: inline-block;
+}
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+.glitch::before { color: var(--color-acid); z-index: -1; }
+.glitch::after  { color: #01f0ff; z-index: -2; }
+
+.glitch.is-glitching::before {
+  opacity: 0.9;
+  animation: glitch-shift-a 0.28s steps(2, jump-none) both;
+}
+.glitch.is-glitching::after {
+  opacity: 0.9;
+  animation: glitch-shift-b 0.28s steps(2, jump-none) both;
+}
+
+@keyframes glitch-shift-a {
+  0%   { transform: translate(-3px, 2px);  clip-path: inset(10% 0 55% 0); }
+  33%  { transform: translate(4px, -1px);  clip-path: inset(60% 0 8% 0); }
+  66%  { transform: translate(-2px, -2px); clip-path: inset(30% 0 40% 0); }
+  100% { transform: translate(0, 0);       clip-path: inset(0 0 0 0); opacity: 0; }
+}
+@keyframes glitch-shift-b {
+  0%   { transform: translate(3px, -2px);  clip-path: inset(50% 0 15% 0); }
+  33%  { transform: translate(-4px, 1px);  clip-path: inset(5% 0 70% 0); }
+  66%  { transform: translate(2px, 2px);   clip-path: inset(70% 0 5% 0); }
+  100% { transform: translate(0, 0);       clip-path: inset(0 0 0 0); opacity: 0; }
+}
+
+/* fallback estático elegante pra reduced-motion:
+   RGB split fixo e sutil, sem movimento */
+@media (prefers-reduced-motion: reduce) {
+  .glitch {
+    text-shadow:
+      2px 0 0 rgb(255 1 143 / 0.55),
+      -2px 0 0 rgb(1 240 255 / 0.4);
+  }
+  .glitch::before,
+  .glitch::after {
+    display: none;
+  }
+}
+
+/* ═══ kill-switch global de movimento ════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .scanlines::before {
+    display: none;
+  }
+}

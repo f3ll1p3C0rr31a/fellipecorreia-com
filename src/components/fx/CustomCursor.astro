@@ -1,0 +1,45 @@
+---
+/**
+ * Ponto magenta que segue o crosshair nativo com leve atraso.
+ * Só monta em dispositivos com ponteiro fino e sem reduced-motion.
+ */
+---
+
+<custom-cursor
+  class="pointer-events-none fixed left-0 top-0 z-70 hidden size-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-acid mix-blend-screen"
+></custom-cursor>
+
+<script>
+  class CustomCursor extends HTMLElement {
+    #raf = 0;
+
+    connectedCallback() {
+      if (
+        !matchMedia('(pointer: fine)').matches ||
+        matchMedia('(prefers-reduced-motion: reduce)').matches
+      )
+        return;
+
+      this.classList.remove('hidden');
+      let tx = -100, ty = -100, x = tx, y = ty;
+
+      addEventListener('pointermove', (e) => {
+        tx = e.clientX;
+        ty = e.clientY;
+      }, { passive: true });
+
+      const loop = () => {
+        x += (tx - x) * 0.22;
+        y += (ty - y) * 0.22;
+        this.style.transform = `translate(${x}px, ${y}px)`;
+        this.#raf = requestAnimationFrame(loop);
+      };
+      this.#raf = requestAnimationFrame(loop);
+    }
+
+    disconnectedCallback() {
+      cancelAnimationFrame(this.#raf);
+    }
+  }
+  customElements.define('custom-cursor', CustomCursor);
+</script>

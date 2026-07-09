@@ -1,0 +1,31 @@
+---
+import '@fontsource-variable/jetbrains-mono';
+import '@fontsource-variable/unbounded';
+import '@fontsource/press-start-2p';
+import '../styles/global.css';
+
+import GrainOverlay from '../components/fx/GrainOverlay.astro';
+import CustomCursor from '../components/fx/CustomCursor.astro';
+import { getLangFromUrl, useTranslations, altLangPath } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const alt = altLangPath(Astro.url);
+---
+
+<html lang={lang === 'pt' ? 'pt-BR' : 'en'}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{t('meta.title')}</title>
+    <meta name="description" content={t('meta.description')} />
+    <link rel="alternate" hreflang={alt.lang === 'pt' ? 'pt-BR' : 'en'} href={new URL(alt.path, Astro.site)} />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+  </head>
+  <body class="scanlines bg-void font-mono text-bone antialiased">
+    <slot />
+    <GrainOverlay />
+    <CustomCursor />
+  </body>
+</html>

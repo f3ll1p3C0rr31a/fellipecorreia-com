@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import BootSequence from '../components/fx/BootSequence.astro';
+import GlitchText from '../components/fx/GlitchText.astro';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { bootLines } from '../data/boot';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<Base>
+  <BootSequence skipLabel={t('boot.skip')} lines={bootLines[lang]} />
+
+  {/* hero provisório — só pra validar o layout base; a versão real vem na fase 3 */}
+  <main class="flex min-h-screen flex-col items-center justify-center gap-6 px-6 text-center">
+    <p class="font-pixel text-[10px] text-volt">[ONLINE]</p>
+    <h1 class="font-display text-4xl font-extrabold uppercase tracking-tight sm:text-6xl">
+      <GlitchText text="Fellipe Correia" />
+    </h1>
+    <p class="max-w-xl text-sm text-ash sm:text-base">{t('hero.role')}</p>
+    <p class="text-acid">▓▒░ layout base — hero real na próxima fase ░▒▓</p>
+  </main>
+</Base>

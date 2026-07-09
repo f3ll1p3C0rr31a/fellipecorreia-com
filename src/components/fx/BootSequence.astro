@@ -1,0 +1,92 @@
+---
+/**
+ * Boot sequence estilo POST/NFO. Roda uma vez por sessão
+ * (sessionStorage), pulável com clique / qualquer tecla.
+ * Com prefers-reduced-motion: nem monta — some na hora.
+ */
+interface Props {
+  skipLabel: string;
+  lines: string[];
+}
+const { skipLabel, lines } = Astro.props;
+---
+
+<boot-sequence
+  class="fixed inset-0 z-100 hidden flex-col justify-between bg-void p-6 font-mono text-sm leading-relaxed text-bone sm:p-10 sm:text-base"
+  data-lines={JSON.stringify(lines)}
+>
+  <pre class="whitespace-pre-wrap" data-screen></pre>
+  <p class="text-xs text-ash">{skipLabel}</p>
+</boot-sequence>
+
+<script>
+  class BootSequence extends HTMLElement {
+    connectedCallback() {
+      const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduced || sessionStorage.getItem('fbc-booted')) {
+        this.remove();
+        return;
+      }
+
+      this.classList.remove('hidden');
+      this.classList.add('flex');
+      document.documentElement.style.overflow = 'hidden';
+
+      const screen = this.querySelector<HTMLPreElement>('[data-screen]')!;
+      const lines: string[] = JSON.parse(this.dataset.lines ?? '[]');
+      let line = 0;
+      let char = 0;
+      let out = '';
+      let timer = 0;
+
+      const CURSOR = '█';
+      const finish = () => {
+        clearTimeout(timer);
+        sessionStorage.setItem('fbc-booted', '1');
+        removeEventListener('keydown', finish);
+        this.removeEventListener('click', finish);
+        this.style.transition = 'opacity 0.35s steps(4)';
+        this.style.opacity = '0';
+        setTimeout(() => {
+          document.documentElement.style.overflow = '';
+          this.remove();
+        }, 380);
+      };
+
+      const tick = () => {
+        if (line >= lines.length) {
+          screen.textContent = out + CURSOR;
+          timer = window.setTimeout(finish, 500);
+          return;
+        }
+        const current = lines[line];
+        if (char < current.length) {
+          // linhas de status "colam" em bloco; só a última digita char a char
+          const typing = line === lines.length - 1;
+          if (typing) {
+            out += current[char];
+            char++;
+          } else {
+            out += current;
+            char = current.length;
+          }
+        }
+        if (char >= current.length) {
+          out += '\n';
+          line++;
+          char = 0;
+        }
+        screen.textContent = out + CURSOR;
+        // jitter: pausa maior entre linhas, digitação nervosa na última
+        const delay =
+          char === 0 ? 90 + Math.random() * 160 : 24 + Math.random() * 40;
+        timer = window.setTimeout(tick, delay);
+      };
+
+      tick();
+      addEventListener('keydown', finish);
+      this.addEventListener('click', finish);
+    }
+  }
+  customElements.define('boot-sequence', BootSequence);
+</script>
