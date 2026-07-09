@@ -6,10 +6,9 @@ export const site = {
   handle: 'fellipe@jupiter',
   location: { pt: 'Brasília, DF', en: 'Brasília, BR' },
   email: 'fellipebayeh@gmail.com',
-  phone: '(61) 9339-7877', // profissional — CONFERIR dígitos
+  phone: '(61) 99339-7877', // profissional
   whatsapp: {
-    // número profissional — CONFERIR: 8 dígitos (esperado 9 p/ celular BR)
-    href: 'https://wa.me/556193397877',
+    href: 'https://wa.me/5561993397877',
   },
   social: {
     github: 'https://github.com/f3ll1p3C0rr31a',
