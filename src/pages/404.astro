@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+import GlitchText from '../components/fx/GlitchText.astro';
+---
+
+<Base title="404">
+  <main class="flex min-h-screen flex-col items-center justify-center gap-8 px-6 text-center">
+    <p class="font-pixel text-[10px] text-volt">[ SIGSEGV ]</p>
+
+    <h1 class="font-display text-7xl font-extrabold uppercase tracking-tight text-acid sm:text-9xl">
+      <GlitchText text="404" />
+    </h1>
+
+    <div class="w-full max-w-md border border-royal/50 bg-royal/10 p-4 text-left font-mono text-xs text-ash">
+      <p><span class="text-acid">fellipe@jupiter</span>:~$ curl {'{'}rota{'}'}</p>
+      <p class="mt-1 text-volt">segmentation fault (core dumped)</p>
+      <p class="mt-1 text-royal"># rota não encontrada · route not found</p>
+    </div>
+
+    <a
+      href="/"
+      class="group border border-acid/60 bg-acid/5 px-5 py-2.5 font-mono text-xs text-acid transition-colors hover:bg-acid hover:text-void"
+    >
+      <span class="text-acid/60 group-hover:text-void/60">cd</span> ~/ · voltar ao início
+    </a>
+  </main>
+</Base>

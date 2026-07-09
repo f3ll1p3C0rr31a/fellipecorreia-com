@@ -27,8 +27,26 @@ const pageTitle = title ? `${title} — ${t('meta.title')}` : t('meta.title');
     <meta name="generator" content={Astro.generator} />
     <title>{pageTitle}</title>
     <meta name="description" content={description ?? t('meta.description')} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <meta name="theme-color" content="#11012e" />
     <link rel="alternate" hreflang={alt.lang === 'pt' ? 'pt-BR' : 'en'} href={new URL(alt.path, Astro.site)} />
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+
+    {/* Open Graph / Twitter */}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="fellipecorreia.com" />
+    <meta property="og:locale" content={lang === 'pt' ? 'pt_BR' : 'en_US'} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description ?? t('meta.description')} />
+    <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site)} />
+    <meta property="og:image" content={new URL('/og/cover.png', Astro.site)} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description ?? t('meta.description')} />
+    <meta name="twitter:image" content={new URL('/og/cover.png', Astro.site)} />
   </head>
   <body class="scanlines bg-void font-mono text-bone antialiased">
     <slot />
