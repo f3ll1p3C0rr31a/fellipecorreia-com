@@ -1,5 +1,6 @@
 ---
 import SectionHeader from './SectionHeader.astro';
+import ContactForm from './fx/ContactForm.astro';
 import { getLangFromUrl, useTranslations, localizePath } from '../i18n/utils';
 import { site } from '../data/site';
 
@@ -22,57 +23,58 @@ const channels = [
     {t('contact.lead')}
   </p>
 
-  <div class="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
-    {/* canais */}
-    <div class="overflow-hidden border border-royal/60 bg-royal/10">
-      <div class="flex items-center gap-1.5 border-b border-royal/60 bg-royal/20 px-3 py-2 font-mono text-xs">
-        <span class="size-2 rounded-full bg-acid"></span>
-        <span class="size-2 rounded-full bg-volt"></span>
-        <span class="size-2 rounded-full bg-ash/40"></span>
-        <span class="ml-2 text-ash">{site.handle}:~$ ./contato.sh</span>
-      </div>
-      <ul class="divide-y divide-royal/30 p-2 font-mono text-xs sm:text-sm">
-        {
-          channels.map((c) => (
-            <li>
-              <a
-                href={c.href}
-                target={c.ext ? '_blank' : undefined}
-                rel={c.ext ? 'noopener' : undefined}
-                class="group flex items-center gap-3 px-2 py-2.5 transition-colors hover:bg-royal/20"
-              >
-                <span class="text-volt">&gt;</span>
-                <span class="w-20 shrink-0 text-ash">{c.key}</span>
-                <span class="hidden text-royal sm:inline">......</span>
-                <span class="truncate text-bone transition-colors group-hover:text-acid">{c.value}</span>
-                <span class="ml-auto text-royal transition-colors group-hover:text-acid">↗</span>
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
+  <div class="grid gap-6 lg:grid-cols-2">
+    {/* formulário (n8n) */}
+    <ContactForm />
 
-    {/* CVs */}
-    <div class="flex flex-col justify-center gap-3">
-      <p class="font-mono text-xs uppercase tracking-widest text-volt">// {t('contact.cv.title')}</p>
-      <a
-        href={`${cv}#dev`}
-        class="group flex items-center justify-between border border-acid/60 bg-acid/5 px-5 py-3 font-mono text-xs text-acid transition-colors hover:bg-acid hover:text-void"
-      >
-        <span><span class="opacity-60">./</span>{t('contact.cv.dev')}</span>
-        <span>↓</span>
-      </a>
-      <a
-        href={`${cv}#growth`}
-        class="group flex items-center justify-between border border-royal/60 px-5 py-3 font-mono text-xs text-ash transition-colors hover:border-volt/60 hover:text-volt"
-      >
-        <span><span class="text-royal">./</span>{t('contact.cv.growth')}</span>
-        <span>↓</span>
-      </a>
-      <p class="mt-2 font-mono text-xs text-royal">
-        {site.handle}:~$ <span class="animate-blink">▊</span>
-      </p>
+    {/* canais + CVs */}
+    <div class="flex flex-col gap-6">
+      <div class="overflow-hidden border border-royal/60 bg-royal/10">
+        <div class="flex items-center gap-1.5 border-b border-royal/60 bg-royal/20 px-3 py-2 font-mono text-xs">
+          <span class="size-2 rounded-full bg-acid"></span>
+          <span class="size-2 rounded-full bg-volt"></span>
+          <span class="size-2 rounded-full bg-ash/40"></span>
+          <span class="ml-2 text-ash">{t('form.or')}</span>
+        </div>
+        <ul class="divide-y divide-royal/30 p-2 font-mono text-xs sm:text-sm">
+          {
+            channels.map((c) => (
+              <li>
+                <a
+                  href={c.href}
+                  target={c.ext ? '_blank' : undefined}
+                  rel={c.ext ? 'noopener' : undefined}
+                  class="group flex items-center gap-3 px-2 py-2.5 transition-colors hover:bg-royal/20"
+                >
+                  <span class="text-volt">&gt;</span>
+                  <span class="w-20 shrink-0 text-ash">{c.key}</span>
+                  <span class="hidden text-royal sm:inline">......</span>
+                  <span class="truncate text-bone transition-colors group-hover:text-acid">{c.value}</span>
+                  <span class="ml-auto text-royal transition-colors group-hover:text-acid">↗</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="flex flex-col gap-3">
+        <p class="font-mono text-xs uppercase tracking-widest text-volt">// {t('contact.cv.title')}</p>
+        <a
+          href={`${cv}#dev`}
+          class="group flex items-center justify-between border border-acid/60 bg-acid/5 px-5 py-3 font-mono text-xs text-acid transition-colors hover:bg-acid hover:text-void"
+        >
+          <span><span class="opacity-60">./</span>{t('contact.cv.dev')}</span>
+          <span>↓</span>
+        </a>
+        <a
+          href={`${cv}#growth`}
+          class="group flex items-center justify-between border border-royal/60 px-5 py-3 font-mono text-xs text-ash transition-colors hover:border-volt/60 hover:text-volt"
+        >
+          <span><span class="text-royal">./</span>{t('contact.cv.growth')}</span>
+          <span>↓</span>
+        </a>
+      </div>
     </div>
   </div>
 </section>

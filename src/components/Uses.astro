@@ -1,0 +1,79 @@
+---
+import GlitchText from './fx/GlitchText.astro';
+import { getLangFromUrl, useTranslations, localizePath } from '../i18n/utils';
+import { machines, toolbox, selfHosted } from '../data/uses';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const tools = toolbox(lang);
+const home = localizePath(lang, '/');
+---
+
+<article class="mx-auto max-w-4xl px-4 pb-20 pt-24 sm:px-6">
+  <a href={home} class="font-mono text-xs text-ash transition-colors hover:text-acid">← ~/</a>
+
+  <header class="mt-6">
+    <h1 class="font-display text-4xl font-extrabold uppercase tracking-tight sm:text-5xl">
+      <GlitchText text="/uses" />
+    </h1>
+    <p class="mt-4 max-w-2xl border-l-2 border-acid pl-4 font-mono text-sm leading-relaxed text-ash">
+      {t('uses.lead')}
+    </p>
+  </header>
+
+  {/* máquinas */}
+  <div class="mb-4 mt-12 flex items-center gap-3 font-mono text-xs">
+    <span class="text-acid">// {t('uses.machines')}</span>
+    <span class="h-px flex-1 bg-royal/40"></span>
+  </div>
+  <div class="grid gap-4 sm:grid-cols-2">
+    {
+      machines.map((m) => (
+        <div class="overflow-hidden border border-royal/60 bg-royal/10">
+          <div class="flex items-center gap-1.5 border-b border-royal/60 bg-royal/20 px-3 py-2 font-mono text-xs">
+            <span class="size-2 rounded-full bg-acid" />
+            <span class="size-2 rounded-full bg-volt" />
+            <span class="size-2 rounded-full bg-ash/40" />
+            <span class="ml-2 text-bone">
+              <span class="text-acid">{m.host}</span>@fbc
+            </span>
+          </div>
+          <div class="p-4 font-mono text-xs">
+            <p class="mb-3 text-ash">{m.role[lang]}</p>
+            {m.specs.map((s) => (
+              <p class="flex gap-2">
+                <span class="w-24 shrink-0 font-semibold text-acid">{s.k}</span>
+                <span class="text-bone">{s.v}</span>
+              </p>
+            ))}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+
+  {/* toolbox */}
+  <div class="mb-4 mt-12 flex items-center gap-3 font-mono text-xs">
+    <span class="text-volt">// {t('uses.toolbox')}</span>
+    <span class="h-px flex-1 bg-royal/40"></span>
+  </div>
+  <dl class="space-y-1.5 font-mono text-xs sm:text-sm">
+    {
+      tools.map((tool) => (
+        <div class="flex flex-col gap-x-3 sm:flex-row">
+          <dt class="w-44 shrink-0 font-semibold text-volt">{tool.k}</dt>
+          <dd class="text-bone/90">{tool.v}</dd>
+        </div>
+      ))
+    }
+  </dl>
+
+  {/* self-hosted */}
+  <div class="mb-4 mt-12 flex items-center gap-3 font-mono text-xs">
+    <span class="text-acid">// {t('uses.selfhosted')}</span>
+    <span class="h-px flex-1 bg-royal/40"></span>
+  </div>
+  <ul class="flex flex-wrap gap-2">
+    {selfHosted.map((s) => <li class="border border-royal/50 px-2 py-1 font-mono text-xs text-ash">{s}</li>)}
+  </ul>
+</article>

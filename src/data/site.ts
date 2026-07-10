@@ -14,6 +14,8 @@ export const site = {
     github: 'https://github.com/f3ll1p3C0rr31a',
     linkedin: 'https://www.linkedin.com/in/f3llipecorreia',
   },
+  // webhook n8n do formulário de contato (produção)
+  contactWebhook: 'https://n8n.fellipecorreia.com/webhook/contato-site',
 } as const;
 
 /** CVs em dois tracks — a rota /cv renderiza a partir de src/data/cv.ts. */

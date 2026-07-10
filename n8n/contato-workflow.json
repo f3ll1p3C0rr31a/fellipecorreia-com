@@ -1,0 +1,82 @@
+{
+  "name": "Contato — fellipecorreia.com",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "contato-site",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "https://fellipecorreia.com,https://www.fellipecorreia.com"
+        }
+      },
+      "id": "b1a11111-1111-4111-8111-111111111111",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [260, 300],
+      "webhookId": "contato-site"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "loose" },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.body.website }}",
+              "rightValue": "",
+              "operator": { "type": "string", "operation": "empty", "singleValue": true }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "c2a22222-2222-4222-8222-222222222222",
+      "name": "Não é bot (honeypot vazio)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [480, 300]
+    },
+    {
+      "parameters": {
+        "fromEmail": "contato@fellipecorreia.com",
+        "toEmail": "fellipebayeh@gmail.com",
+        "subject": "=[site] novo contato de {{ $json.body.name }}",
+        "emailFormat": "text",
+        "text": "=Nome:  {{ $json.body.name }}\nEmail: {{ $json.body.email }}\n\n{{ $json.body.message }}\n\n— enviado por {{ $json.body.source }}",
+        "options": { "replyTo": "={{ $json.body.email }}" }
+      },
+      "id": "d3a33333-3333-4333-8333-333333333333",
+      "name": "Enviar e-mail",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [720, 220]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={ \"ok\": true }",
+        "options": {}
+      },
+      "id": "e4a44444-4444-4444-8444-444444444444",
+      "name": "Responder OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [960, 300]
+    }
+  ],
+  "connections": {
+    "Webhook": { "main": [[{ "node": "Não é bot (honeypot vazio)", "type": "main", "index": 0 }]] },
+    "Não é bot (honeypot vazio)": {
+      "main": [
+        [{ "node": "Enviar e-mail", "type": "main", "index": 0 }],
+        [{ "node": "Responder OK", "type": "main", "index": 0 }]
+      ]
+    },
+    "Enviar e-mail": { "main": [[{ "node": "Responder OK", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "pinData": {}
+}

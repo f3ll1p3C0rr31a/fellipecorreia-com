@@ -1,0 +1,128 @@
+---
+/**
+ * Formulário de contato → webhook n8n. Custom element vanilla.
+ * Honeypot antispam, validação client-side, estados sending/ok/err.
+ */
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import { site } from '../../data/site';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const strings = {
+  sending: t('form.sending'),
+  ok: t('form.ok'),
+  err: t('form.err'),
+  invalid: t('form.invalid'),
+};
+---
+
+<contact-form
+  data-webhook={site.contactWebhook}
+  data-strings={JSON.stringify(strings)}
+  class="block overflow-hidden border border-royal/60 bg-royal/10"
+>
+  <div class="flex items-center gap-1.5 border-b border-royal/60 bg-royal/20 px-3 py-2 font-mono text-xs">
+    <span class="size-2 rounded-full bg-acid"></span>
+    <span class="size-2 rounded-full bg-volt"></span>
+    <span class="size-2 rounded-full bg-ash/40"></span>
+    <span class="ml-2 text-ash">{site.handle}:~$ mail -s</span>
+  </div>
+
+  <form class="space-y-4 p-4 font-mono text-xs" novalidate>
+    <label class="block">
+      <span class="text-acid">&gt; {t('form.name')}</span>
+      <input
+        name="name"
+        type="text"
+        required
+        class="mt-1 w-full border border-royal/50 bg-void/60 px-3 py-2 text-bone outline-none transition-colors focus:border-acid"
+      />
+    </label>
+
+    <label class="block">
+      <span class="text-acid">&gt; {t('form.email')}</span>
+      <input
+        name="email"
+        type="email"
+        required
+        class="mt-1 w-full border border-royal/50 bg-void/60 px-3 py-2 text-bone outline-none transition-colors focus:border-acid"
+      />
+    </label>
+
+    <label class="block">
+      <span class="text-acid">&gt; {t('form.message')}</span>
+      <textarea
+        name="message"
+        required
+        rows="4"
+        class="mt-1 w-full resize-y border border-royal/50 bg-void/60 px-3 py-2 text-bone outline-none transition-colors focus:border-acid"
+      ></textarea>
+    </label>
+
+    {/* honeypot — escondido de humanos, atrai bots */}
+    <input type="text" name="website" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+
+    <div class="flex flex-wrap items-center gap-4">
+      <button
+        type="submit"
+        class="group border border-acid/60 bg-acid/5 px-5 py-2.5 text-acid transition-colors hover:bg-acid hover:text-void disabled:opacity-50"
+      >
+        <span class="text-acid/60 group-hover:text-void/60">./</span>{t('form.send')}
+      </button>
+      <p data-status aria-live="polite" class="text-ash"></p>
+    </div>
+  </form>
+</contact-form>
+
+<script>
+  class ContactForm extends HTMLElement {
+    connectedCallback() {
+      const form = this.querySelector('form')!;
+      const status = this.querySelector<HTMLParagraphElement>('[data-status]')!;
+      const btn = this.querySelector<HTMLButtonElement>('button[type=submit]')!;
+      const webhook = this.dataset.webhook!;
+      const s = JSON.parse(this.dataset.strings ?? '{}');
+
+      const setStatus = (msg: string, color: string) => {
+        status.textContent = msg;
+        status.className = color;
+      };
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const data = new FormData(form);
+        // honeypot preenchido = bot: finge sucesso e não envia
+        if ((data.get('website') as string)?.length) {
+          setStatus(s.ok, 'text-toxic');
+          form.reset();
+          return;
+        }
+        const name = (data.get('name') as string)?.trim();
+        const email = (data.get('email') as string)?.trim();
+        const message = (data.get('message') as string)?.trim();
+        if (!name || !message || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+          setStatus(s.invalid, 'text-volt');
+          return;
+        }
+
+        btn.disabled = true;
+        setStatus(s.sending, 'text-ash');
+        try {
+          const res = await fetch(webhook, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, message, source: 'fellipecorreia.com' }),
+          });
+          if (!res.ok) throw new Error(String(res.status));
+          setStatus(s.ok, 'text-toxic');
+          form.reset();
+        } catch {
+          setStatus(s.err, 'text-acid');
+        } finally {
+          btn.disabled = false;
+        }
+      });
+    }
+  }
+  customElements.define('contact-form', ContactForm);
+</script>
