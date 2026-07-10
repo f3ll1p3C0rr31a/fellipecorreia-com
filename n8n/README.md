@@ -1,25 +1,25 @@
 # Formulário de contato — workflow n8n
 
+**Status: ativo em produção** (n8n `Contato — fellipecorreia.com`, id `PfoQMvFONZPYKohH`).
+
 O formulário do site (`ContactForm`) faz `POST` de JSON `{ name, email, message, source }`
 para o webhook n8n definido em [`src/data/site.ts`](../src/data/site.ts) →
 `contactWebhook` (`https://n8n.fellipecorreia.com/webhook/contato-site`).
 
-## Como o workflow funciona
+## Fluxo
 
-`Webhook (POST /contato-site)` → `IF honeypot vazio` → `Enviar e-mail` → `Responder OK`
+`Webhook (POST /contato-site)` → `IF honeypot vazio` → `Enviar Gmail` → `Responder OK`
 
-- **CORS**: o nó Webhook já tem `allowedOrigins` com os domínios do site — o browser
-  consegue chamar cross-origin sem erro.
-- **Antispam**: o honeypot (`website`) é filtrado no frontend e revalidado no nó IF.
-- **Resposta**: retorna `{ "ok": true }` (o frontend só checa `res.ok`).
+- **CORS**: o nó Webhook tem `allowedOrigins` com os domínios do site — o browser chama
+  cross-origin sem erro (preflight `204`, `Access-Control-Allow-Origin` correto).
+- **Antispam**: honeypot (`website`) filtrado no frontend e revalidado no nó IF.
+- **E-mail**: nó Gmail (credencial `Gmail - Fellipe`) envia pra `fellipebayeh@gmail.com`,
+  com `Reply-To` apontando pro e-mail de quem preencheu.
+- **Resposta**: `{ "ok": true }` (o frontend só checa `res.ok`).
 
-## Setup (uma vez)
+Este JSON é a fonte versionada do workflow. Se precisar recriar: n8n → *Import from File*.
 
-1. **Importar**: n8n → *Workflows* → *Import from File* → `contato-workflow.json`.
-2. **Credencial de e-mail**: abra o nó **Enviar e-mail** e conecte uma credencial SMTP
-   (ex: sua conta Mailcow `contato@fellipecorreia.com`). Ajuste o `fromEmail` se quiser.
-3. **Ativar** o workflow (toggle *Active*).
-4. Testar: enviar o formulário no site e conferir se o e-mail chega.
+## Manutenção
 
-> Alternativa ao e-mail: trocar o nó **Enviar e-mail** por um nó de Mattermost / Telegram /
-> WhatsApp (Evolution API) que você já roda, se preferir receber como notificação.
+- Trocar o destinatário/assunto: nó **Enviar Gmail**.
+- Receber também por WhatsApp/Mattermost: adicionar um nó extra após o IF.

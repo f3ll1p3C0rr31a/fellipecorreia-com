@@ -14,7 +14,7 @@
       "name": "Webhook",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
-      "position": [260, 300],
+      "position": [240, 300],
       "webhookId": "contato-site"
     },
     {
@@ -23,6 +23,7 @@
           "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "loose" },
           "conditions": [
             {
+              "id": "hp-1",
               "leftValue": "={{ $json.body.website }}",
               "rightValue": "",
               "operator": { "type": "string", "operation": "empty", "singleValue": true }
@@ -33,25 +34,29 @@
         "options": {}
       },
       "id": "c2a22222-2222-4222-8222-222222222222",
-      "name": "Não é bot (honeypot vazio)",
+      "name": "Nao e bot",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
-      "position": [480, 300]
+      "position": [460, 300]
     },
     {
       "parameters": {
-        "fromEmail": "contato@fellipecorreia.com",
-        "toEmail": "fellipebayeh@gmail.com",
+        "resource": "message",
+        "operation": "send",
+        "sendTo": "fellipebayeh@gmail.com",
         "subject": "=[site] novo contato de {{ $json.body.name }}",
-        "emailFormat": "text",
-        "text": "=Nome:  {{ $json.body.name }}\nEmail: {{ $json.body.email }}\n\n{{ $json.body.message }}\n\n— enviado por {{ $json.body.source }}",
+        "emailType": "text",
+        "message": "=Nome:  {{ $json.body.name }}\nEmail: {{ $json.body.email }}\n\n{{ $json.body.message }}\n\n-- enviado por {{ $json.body.source }}",
         "options": { "replyTo": "={{ $json.body.email }}" }
       },
       "id": "d3a33333-3333-4333-8333-333333333333",
-      "name": "Enviar e-mail",
-      "type": "n8n-nodes-base.emailSend",
+      "name": "Enviar Gmail",
+      "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
-      "position": [720, 220]
+      "position": [700, 200],
+      "credentials": {
+        "gmailOAuth2": { "id": "Gm41LoAuthCredFC1", "name": "Gmail - Fellipe" }
+      }
     },
     {
       "parameters": {
@@ -63,20 +68,19 @@
       "name": "Responder OK",
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,
-      "position": [960, 300]
+      "position": [940, 300]
     }
   ],
   "connections": {
-    "Webhook": { "main": [[{ "node": "Não é bot (honeypot vazio)", "type": "main", "index": 0 }]] },
-    "Não é bot (honeypot vazio)": {
+    "Webhook": { "main": [[{ "node": "Nao e bot", "type": "main", "index": 0 }]] },
+    "Nao e bot": {
       "main": [
-        [{ "node": "Enviar e-mail", "type": "main", "index": 0 }],
+        [{ "node": "Enviar Gmail", "type": "main", "index": 0 }],
         [{ "node": "Responder OK", "type": "main", "index": 0 }]
       ]
     },
-    "Enviar e-mail": { "main": [[{ "node": "Responder OK", "type": "main", "index": 0 }]] }
+    "Enviar Gmail": { "main": [[{ "node": "Responder OK", "type": "main", "index": 0 }]] }
   },
-  "active": false,
-  "settings": { "executionOrder": "v1" },
-  "pinData": {}
+  "active": true,
+  "settings": { "executionOrder": "v1" }
 }
