@@ -1,22 +1,37 @@
 ---
 /**
- * Boot sequence estilo POST/NFO. Roda uma vez por sessão
- * (sessionStorage), pulável com clique / qualquer tecla.
- * Com prefers-reduced-motion: nem monta — some na hora.
+ * Tela "clique para iniciar" → boot POST/NFO → transição CRT pro hero.
+ * O clique/tecla que inicia libera o áudio (política de autoplay), então
+ * o som toca durante toda a intro. Roda 1x por sessão; reduced-motion
+ * pula tudo.
  */
 interface Props {
   skipLabel: string;
+  gateLabel: string;
   lines: string[];
 }
-const { skipLabel, lines } = Astro.props;
+const { skipLabel, gateLabel, lines } = Astro.props;
 ---
 
 <boot-sequence
-  class="fixed inset-0 z-100 hidden flex-col justify-between bg-void p-6 font-mono text-sm leading-relaxed text-bone sm:p-10 sm:text-base"
+  class="fixed inset-0 z-100 hidden flex-col bg-void font-mono text-sm leading-relaxed text-bone sm:text-base"
   data-lines={JSON.stringify(lines)}
 >
-  <pre class="whitespace-pre-wrap" data-screen></pre>
-  <p class="text-xs text-ash">{skipLabel}</p>
+  {/* tela de entrada */}
+  <div
+    data-gate
+    class="flex flex-1 cursor-pointer flex-col items-center justify-center gap-6 p-6 text-center"
+  >
+    <span class="font-pixel text-[10px] tracking-widest text-dim">FBC-SYSTEM // standby</span>
+    <span class="animate-blink text-lg text-acid sm:text-xl">[ {gateLabel} ]</span>
+    <span class="text-xs text-dim">▸ fellipecorreia.com</span>
+  </div>
+
+  {/* console do boot */}
+  <div data-console class="hidden flex-1 flex-col justify-between p-6 sm:p-10">
+    <pre class="whitespace-pre-wrap" data-screen></pre>
+    <p class="text-xs text-ash">{skipLabel}</p>
+  </div>
 </boot-sequence>
 
 <script>
@@ -32,14 +47,32 @@ const { skipLabel, lines } = Astro.props;
       this.classList.add('flex');
       document.documentElement.style.overflow = 'hidden';
 
+      const gate = this.querySelector<HTMLElement>('[data-gate]')!;
+      const consoleEl = this.querySelector<HTMLElement>('[data-console]')!;
       const screen = this.querySelector<HTMLPreElement>('[data-screen]')!;
       const lines: string[] = JSON.parse(this.dataset.lines ?? '[]');
+
+      const begin = (e?: Event) => {
+        e?.stopPropagation();
+        gate.removeEventListener('click', begin);
+        removeEventListener('keydown', begin);
+        gate.classList.add('hidden');
+        consoleEl.classList.remove('hidden');
+        consoleEl.classList.add('flex');
+        this.#runBoot(screen, lines);
+      };
+      // o mesmo gesto libera o áudio (AudioAmbient escuta o pointerdown)
+      gate.addEventListener('click', begin);
+      addEventListener('keydown', begin);
+    }
+
+    #runBoot(screen: HTMLPreElement, lines: string[]) {
       let line = 0;
       let char = 0;
       let out = '';
       let timer = 0;
-
       const CURSOR = '█';
+
       const finish = () => {
         clearTimeout(timer);
         sessionStorage.setItem('fbc-booted', '1');
@@ -50,13 +83,11 @@ const { skipLabel, lines } = Astro.props;
           document.documentElement.style.overflow = '';
           this.remove();
         };
-
         if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
           done();
           return;
         }
-
-        // desligamento estilo monitor CRT + som de power-off
+        // desligamento estilo CRT + blip de power-off
         window.dispatchEvent(new CustomEvent('fbc:crt-off'));
         this.classList.add('crt-off');
         setTimeout(done, 720);
@@ -65,13 +96,12 @@ const { skipLabel, lines } = Astro.props;
       const tick = () => {
         if (line >= lines.length) {
           screen.textContent = out + CURSOR;
-          timer = window.setTimeout(finish, 500);
+          timer = window.setTimeout(finish, 520);
           return;
         }
         const current = lines[line];
+        const typing = line === lines.length - 1;
         if (char < current.length) {
-          // linhas de status "colam" em bloco; só a última digita char a char
-          const typing = line === lines.length - 1;
           if (typing) {
             out += current[char];
             char++;
@@ -86,15 +116,16 @@ const { skipLabel, lines } = Astro.props;
           char = 0;
         }
         screen.textContent = out + CURSOR;
-        // jitter: pausa maior entre linhas, digitação nervosa na última
-        const delay =
-          char === 0 ? 90 + Math.random() * 160 : 24 + Math.random() * 40;
+        const delay = char === 0 ? 90 + Math.random() * 160 : 24 + Math.random() * 40;
         timer = window.setTimeout(tick, delay);
       };
 
       tick();
-      addEventListener('keydown', finish);
-      this.addEventListener('click', finish);
+      // pular durante a digitação
+      setTimeout(() => {
+        addEventListener('keydown', finish);
+        this.addEventListener('click', finish);
+      }, 60);
     }
   }
   customElements.define('boot-sequence', BootSequence);

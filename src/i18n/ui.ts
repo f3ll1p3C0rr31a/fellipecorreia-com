@@ -13,6 +13,7 @@ export const ui = {
     'meta.description':
       'Portfólio de Fellipe Bayeh Correia — desenvolvedor full-stack e DevOps, com homelab de produção rodando 70+ containers e background em marketing e growth.',
     'boot.skip': '[ ESC ] pular boot',
+    'boot.gate': 'clique para iniciar',
 
     'hero.role': 'Full-Stack Dev  ·  DevOps  ·  Self-Hosted Everything',
     'hero.tagline':
@@ -112,6 +113,7 @@ export const ui = {
     'meta.description':
       'Portfolio of Fellipe Bayeh Correia — full-stack developer and DevOps, running a production homelab with 70+ containers, with a background in marketing and growth.',
     'boot.skip': '[ ESC ] skip boot',
+    'boot.gate': 'click to start',
 
     'hero.role': 'Full-Stack Dev  ·  DevOps  ·  Self-Hosted Everything',
     'hero.tagline':

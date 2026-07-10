@@ -19,7 +19,7 @@ const t = useTranslations(lang);
 ---
 
 <Base>
-  <BootSequence skipLabel={t('boot.skip')} lines={bootLines[lang]} />
+  <BootSequence skipLabel={t('boot.skip')} gateLabel={t('boot.gate')} lines={bootLines[lang]} />
   <Nav />
 
   <main>
