@@ -9,49 +9,27 @@ const home = localizePath(lang, '/');
 ---
 
 <div class="cv-view mx-auto max-w-3xl px-4 pb-20 pt-6 sm:px-6">
-  {/* radios controlam o track via CSS (zero-JS pro switch) */}
-  <input type="radio" name="cvtrack" id="track-dev" class="sr-only" checked />
-  <input type="radio" name="cvtrack" id="track-growth" class="sr-only" />
-
   {/* barra de controle — não aparece no PDF */}
   <div class="screen-only mb-8 flex flex-wrap items-center gap-3 border-b border-royal/40 pb-4">
     <a href={home} class="font-mono text-xs text-ash transition-colors hover:text-acid">← {t('cv.back')}</a>
 
-    <div class="ml-auto flex items-center gap-2 font-mono text-xs">
-      <label for="track-dev" class="cv-tab cursor-pointer border border-royal/50 px-3 py-1.5 transition-colors">
-        {t('cv.track.dev')}
-      </label>
-      <label for="track-growth" class="cv-tab cursor-pointer border border-royal/50 px-3 py-1.5 transition-colors">
-        {t('cv.track.growth')}
-      </label>
+    <div class="ml-auto flex items-center gap-3">
+      <LangToggle />
+      <button
+        type="button"
+        id="cv-print"
+        class="border border-acid/60 bg-acid/5 px-4 py-1.5 font-mono text-xs text-acid transition-colors hover:bg-acid hover:text-void"
+      >
+        ↓ {t('cv.download')}
+      </button>
     </div>
-
-    <LangToggle />
-
-    <button
-      type="button"
-      id="cv-print"
-      class="border border-acid/60 bg-acid/5 px-4 py-1.5 font-mono text-xs text-acid transition-colors hover:bg-acid hover:text-void"
-    >
-      ↓ {t('cv.download')}
-    </button>
   </div>
 
   <p class="screen-only mb-6 font-mono text-[11px] text-royal">{t('cv.print.hint')}</p>
 
-  {/* documentos — CSS mostra só o track selecionado */}
-  <div class="cv-dev-wrap"><CVDocument track="dev" /></div>
-  <div class="cv-growth-wrap"><CVDocument track="growth" /></div>
+  <CVDocument />
 </div>
 
 <script>
-  // preseleção pelo hash (#dev / #growth) e botão de download
-  const apply = () => {
-    const h = location.hash.replace('#', '');
-    if (h === 'growth') (document.getElementById('track-growth') as HTMLInputElement).checked = true;
-    else if (h === 'dev') (document.getElementById('track-dev') as HTMLInputElement).checked = true;
-  };
-  apply();
-  addEventListener('hashchange', apply);
   document.getElementById('cv-print')?.addEventListener('click', () => window.print());
 </script>

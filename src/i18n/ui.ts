@@ -11,7 +11,7 @@ export const ui = {
   pt: {
     'meta.title': 'Fellipe Correia — Growth & Martech Engineer | Full-Stack & DevOps',
     'meta.description':
-      'Portfólio de Fellipe Bayeh Correia: 15 anos de growth/marketing + engenharia full-stack, DevOps e homelab de produção com 70+ containers.',
+      'Portfólio de Fellipe Bayeh Correia — desenvolvedor full-stack e DevOps, com homelab de produção rodando 70+ containers e background em marketing e growth.',
     'boot.skip': '[ ESC ] pular boot',
 
     'hero.role': 'Full-Stack Dev  ·  DevOps  ·  Self-Hosted Everything',
@@ -33,7 +33,7 @@ export const ui = {
     'about.p1':
       'Sou desenvolvedor full-stack e o cara de infra que a maioria das empresas terceiriza. Aprendi na marra, mantendo um homelab de produção com mais de 70 containers rodando 24/7 — não é lab de estudo: são serviços críticos que quebram às 3 da manhã e eu conserto.',
     'about.p2':
-      'Antes disso, passei 15 anos liderando marketing e growth — inclusive como diretor. Isso não é ruído no meu currículo de dev: é o que me faz entender por que o software existe, o que o negócio precisa e onde está o dinheiro. Pouco dev enxerga isso.',
+      'Antes de virar dev, vieram anos em marketing e growth — operação, dados, e-commerce. Isso não é ruído no meu currículo: é o que me faz entender por que o software existe, o que o negócio precisa e onde está o dinheiro. Pouco dev enxerga isso.',
     'about.p3':
       'Agora, no último semestre de ADS, transformo essa bagagem em código: full-stack em Next.js/TypeScript e uma stack de DevOps self-hosted de ponta a ponta — do Docker ao Cloudflare Tunnel, do CI/CD ao backup automatizado.',
     'about.status.label': 'status atual',
@@ -63,7 +63,7 @@ export const ui = {
     'homelab.services': 'serviços em produção',
     'homelab.note': 'exposição só via Cloudflare Tunnel — zero portas abertas no roteador.',
 
-    'exp.lead': '15 anos liderando marketing e growth. Não é o que quero fazer agora — é a vantagem injusta que levo pro dev.',
+    'exp.lead': 'Anos em marketing e growth antes de migrar pro código. Não é o que quero fazer agora — é a vantagem injusta que levo pro dev.',
     'exp.current': 'atual',
 
     'contact.lead': 'Procurando alguém que escreve o código e mantém a infra que roda? Bora conversar.',
@@ -109,7 +109,7 @@ export const ui = {
   en: {
     'meta.title': 'Fellipe Correia — Growth & Martech Engineer | Full-Stack & DevOps',
     'meta.description':
-      'Portfolio of Fellipe Bayeh Correia: 15 years of growth/marketing + full-stack engineering, DevOps and a production homelab running 70+ containers.',
+      'Portfolio of Fellipe Bayeh Correia — full-stack developer and DevOps, running a production homelab with 70+ containers, with a background in marketing and growth.',
     'boot.skip': '[ ESC ] skip boot',
 
     'hero.role': 'Full-Stack Dev  ·  DevOps  ·  Self-Hosted Everything',
@@ -131,7 +131,7 @@ export const ui = {
     'about.p1':
       "I'm a full-stack developer and the infra guy most companies outsource. I learned it the hard way, running a production homelab with 70+ containers up 24/7 — not a study lab: real critical services that break at 3am, and I'm the one who fixes them.",
     'about.p2':
-      "Before that, I spent 15 years leading marketing and growth — as a director, too. That's not noise on my dev résumé: it's what makes me understand why software exists, what the business needs, and where the money is. Few devs see that.",
+      "Before becoming a dev came years in marketing and growth — operations, data, e-commerce. That's not noise on my résumé: it's what makes me understand why software exists, what the business needs, and where the money is. Few devs see that.",
     'about.p3':
       "Now, in the final semester of my CS degree, I turn that background into code: full-stack in Next.js/TypeScript and an end-to-end self-hosted DevOps stack — from Docker to Cloudflare Tunnel, from CI/CD to automated backups.",
     'about.status.label': 'current status',
@@ -161,7 +161,7 @@ export const ui = {
     'homelab.services': 'services in production',
     'homelab.note': 'exposed only through Cloudflare Tunnel — zero open ports on the router.',
 
-    'exp.lead': "15 years leading marketing and growth. Not what I want to do now — it's the unfair advantage I bring to dev.",
+    'exp.lead': "Years in marketing and growth before moving into code. Not what I want to do now — it's the unfair advantage I bring to dev.",
     'exp.current': 'current',
 
     'contact.lead': "Looking for someone who writes the code and keeps the infra it runs on? Let's talk.",

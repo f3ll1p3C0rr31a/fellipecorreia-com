@@ -18,10 +18,6 @@ export const site = {
   contactWebhook: 'https://n8n.fellipecorreia.com/webhook/contato-site',
 } as const;
 
-/** CVs em dois tracks — a rota /cv renderiza a partir de src/data/cv.ts. */
-export const cvTracks = ['growth', 'dev'] as const;
-export type CvTrack = (typeof cvTracks)[number];
-
 /** Âncoras da navegação single-page (ordem = ordem visual). */
 export const navSections = [
   { id: 'sobre', pt: 'sobre', en: 'about', cmd: 'cat sobre.md', accent: 'acid' },

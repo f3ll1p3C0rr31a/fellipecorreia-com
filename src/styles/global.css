@@ -172,17 +172,7 @@ a, button, [role='button'], label, summary {
   .group:hover .corrupt-card { animation: none; border-color: var(--color-acid); }
 }
 
-/* ═══ página /cv: toggle de track (radio + CSS) ═══════ */
-
-.cv-view #track-growth:checked ~ .cv-dev-wrap { display: none; }
-.cv-view #track-dev:checked ~ .cv-growth-wrap { display: none; }
-
-.cv-view #track-dev:checked ~ .screen-only .cv-tab[for='track-dev'],
-.cv-view #track-growth:checked ~ .screen-only .cv-tab[for='track-growth'] {
-  border-color: var(--color-acid);
-  color: var(--color-acid);
-  background: color-mix(in srgb, var(--color-acid) 8%, transparent);
-}
+/* ═══ página /cv ══════════════════════════════════════ */
 
 .cv-h2 {
   margin-bottom: 0.6rem;

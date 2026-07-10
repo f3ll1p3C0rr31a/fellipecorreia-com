@@ -6,57 +6,43 @@ export interface Job {
   company: string;
   brands?: string;
   role: Loc;
-  period: string;
+  period: Loc;
+  location: string;
   current?: boolean;
   highlights: Record<Lang, string[]>;
 }
 
 export const jobs: Job[] = [
   {
-    company: 'Holding 365',
-    brands: 'Daiso · Konnbini',
-    role: { pt: 'Diretor de Marketing', en: 'Marketing Director' },
-    period: '2022 — ' ,
+    company: 'Daiso',
+    role: { pt: 'Desenvolvedor Junior', en: 'Junior Developer' },
+    period: { pt: 'jan/2026 – atual', en: 'Jan/2026 – present' },
+    location: 'Brasília',
     current: true,
     highlights: {
       pt: [
-        'Gestão omnichannel entre canais próprios e marketplaces (Shopee, TikTok Shop, Amazon, Mercado Livre).',
-        'Automação com Make, IA generativa e ERP (Bling) pra precificação e estoque — menos retrabalho, mais margem.',
+        'Aplico automação de processos (n8n), integrações via API e desenvolvimento de ferramentas internas para otimizar precificação, cadastro de produtos e gestão de estoque via ERP (Bling).',
       ],
       en: [
-        'Omnichannel management across owned channels and marketplaces (Shopee, TikTok Shop, Amazon, Mercado Livre).',
-        'Automation with Make, generative AI and ERP (Bling) for pricing and stock — less rework, more margin.',
+        'I apply process automation (n8n), API integrations and internal tooling to optimize pricing, product registration and stock management via the Bling ERP.',
       ],
     },
   },
   {
-    company: 'TekClean',
-    role: { pt: 'Diretor de Marketing & Comercial', en: 'Marketing & Sales Director' },
-    period: '2019 — 2022',
+    company: 'Konnbini',
+    role: { pt: 'Desenvolvedor Junior', en: 'Junior Developer' },
+    period: { pt: 'jan/2024 – dez/2025', en: 'Jan/2024 – Dec/2025' },
+    location: 'Brasília',
     highlights: {
       pt: [
-        '+R$ 100 mil no faturamento mensal, estabilizando em R$ 450 mil/mês.',
-        'Reestruturação de processos com ClickUp, Slack e CRM; KPIs orientados a dados e automação com IA.',
+        'Liderava a estratégia de marketing digital e operações das marcas Konnbini, com foco em escalabilidade, margem e eficiência.',
+        'Desenvolvi um sistema de precificação diferenciada por canal de e-commerce, integrado via API ao ERP Bling, automatizando o cálculo de margens por marketplace.',
+        'Aplico automação de processos (n8n), integrações via API e desenvolvimento de ferramentas internas para otimizar precificação, cadastro de produtos e gestão de estoque via ERP (Bling).',
       ],
       en: [
-        '+R$100k in monthly revenue, stabilizing at R$450k/month.',
-        'Process overhaul with ClickUp, Slack and CRM; data-driven KPIs and AI automation.',
-      ],
-    },
-  },
-  {
-    company: 'BRL Grupo',
-    brands: 'Six · Ricco Burguer · Dois Ellis',
-    role: { pt: 'Diretor de Marketing & Comercial', en: 'Marketing & Sales Director' },
-    period: '2015 — 2019',
-    highlights: {
-      pt: [
-        'ROAS de 42 no primeiro mês de campanhas otimizadas.',
-        'Liderança de equipe de 18 profissionais; reorganização da empresa em formato de grupo.',
-      ],
-      en: [
-        'ROAS of 42 in the first month of optimized campaigns.',
-        'Led a team of 18; restructured the company into a group format.',
+        'Led the digital marketing strategy and operations for the Konnbini brands, focused on scalability, margin and efficiency.',
+        'Built a per-channel differentiated pricing system for e-commerce, integrated via API with the Bling ERP, automating margin calculation per marketplace.',
+        'I apply process automation (n8n), API integrations and internal tooling to optimize pricing, product registration and stock management via the Bling ERP.',
       ],
     },
   },

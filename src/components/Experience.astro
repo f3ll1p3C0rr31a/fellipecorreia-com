@@ -31,8 +31,8 @@ const t = useTranslations(lang);
             <h3 class="font-display text-lg font-bold uppercase tracking-tight text-bone">{job.company}</h3>
             {job.brands && <span class="font-mono text-[11px] text-royal">{job.brands}</span>}
             <span class="ml-auto font-mono text-xs text-ash">
-              {job.period}
-              {job.current && <span class="text-toxic">{t('exp.current')}</span>}
+              <span class:list={[job.current && 'text-toxic']}>{job.period[lang]}</span>
+              <span class="text-royal">·</span> {job.location}
             </span>
           </div>
           <p class="mt-0.5 font-mono text-xs text-acid">{job.role[lang]}</p>

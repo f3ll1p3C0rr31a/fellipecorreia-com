@@ -41,19 +41,13 @@ const cv = localizePath(lang, '/cv');
       {t('hero.tagline')}
     </p>
 
-    {/* CTAs dos currículos — Infra/Dev primário */}
+    {/* CTA do currículo */}
     <div class="mt-9 flex flex-wrap items-center gap-3">
       <a
-        href={`${cv}#dev`}
+        href={cv}
         class="group border border-acid/60 bg-acid/5 px-5 py-2.5 font-mono text-xs text-acid transition-colors hover:bg-acid hover:text-void"
       >
         <span class="text-acid/60 group-hover:text-void/60">./</span>{t('hero.cv.dev')}
-      </a>
-      <a
-        href={`${cv}#growth`}
-        class="group border border-royal/60 px-5 py-2.5 font-mono text-xs text-ash transition-colors hover:border-volt/60 hover:text-volt"
-      >
-        <span class="text-royal group-hover:text-volt/60">./</span>{t('hero.cv.growth')}
       </a>
     </div>
 

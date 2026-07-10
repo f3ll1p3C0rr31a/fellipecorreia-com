@@ -1,21 +1,17 @@
 ---
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
 import { site } from '../data/site';
-import { cvMeta, cvStack, education, cvLanguages, differentials, type Track } from '../data/cv';
+import { cvMeta, cvStack, education, cvLanguages, differentials } from '../data/cv';
 import { jobs } from '../data/experience';
 import { technicalProjects } from '../data/projects';
 
-interface Props {
-  track: Track;
-}
-const { track } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const meta = cvMeta[track];
-const stack = cvStack(track);
+const meta = cvMeta;
+const stack = cvStack();
 ---
 
-<article class:list={['cv-doc', `cv-${track}`]}>
+<article class="cv-doc">
   {/* cabeçalho */}
   <header class="cv-head">
     <h1 class="font-display text-3xl font-extrabold uppercase tracking-tight text-bone sm:text-4xl">
@@ -87,7 +83,7 @@ const stack = cvStack(track);
             <span class="text-royal">·</span>
             <span class="text-acid">{job.company}</span>
             {job.brands && <span class="text-royal">({job.brands})</span>}
-            <span class="ml-auto text-ash">{job.period}{job.current ? t('exp.current') : ''}</span>
+            <span class="ml-auto text-ash">{job.period[lang]} · {job.location}</span>
           </p>
           <ul class="mt-1 space-y-0.5">
             {job.highlights[lang].map((h) => (
@@ -125,7 +121,7 @@ const stack = cvStack(track);
   <section class="cv-sec">
     <h2 class="cv-h2">{t('cv.sec.differentials')}</h2>
     <ul class="space-y-1">
-      {differentials[track][lang].map((d) => (
+      {differentials[lang].map((d) => (
         <li class="flex gap-2 font-mono text-xs text-bone/90"><span class="text-volt">★</span>{d}</li>
       ))}
     </ul>
