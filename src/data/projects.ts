@@ -19,6 +19,7 @@ export interface Project {
   stack: string[];
   demo?: string; // URL externa
   demoAnchor?: string; // âncora interna (ex: homelab)
+  shot?: string; // screenshot do demo (webp em /shots)
   github?: string;
   sourcePublic: boolean;
   order: number;
@@ -75,6 +76,7 @@ export const projects: Project[] = [
     status: 'online',
     stack: ['Next.js', 'TypeScript', 'Prisma', 'PostgreSQL', 'NextAuth', 'Tailwind', 'Recharts', 'Docker'],
     demo: 'https://finances.fellipecorreia.com',
+    shot: '/shots/finances.webp',
     github: 'https://github.com/f3ll1p3C0rr31a/finances',
     sourcePublic: true,
     order: 1,
@@ -114,6 +116,7 @@ export const projects: Project[] = [
     status: 'online',
     stack: ['TypeScript', 'Node.js', 'Docker', 'PostgreSQL'],
     demo: 'https://tld.fellipecorreia.com',
+    shot: '/shots/tld.webp',
     github: 'https://github.com/f3ll1p3C0rr31a/mng',
     sourcePublic: true,
     order: 2,
@@ -191,6 +194,7 @@ export const projects: Project[] = [
     status: 'online',
     stack: ['Astro', 'Tailwind'],
     demo: 'https://tech.fellipecorreia.com',
+    shot: '/shots/tech.webp',
     sourcePublic: false,
     order: 4,
     accent: 'acid',
@@ -207,6 +211,7 @@ export const projects: Project[] = [
     status: 'online',
     stack: ['HTML', 'CSS', 'JavaScript'],
     demo: 'https://marvin.fellipecorreia.com',
+    shot: '/shots/marvin.webp',
     sourcePublic: false,
     order: 5,
     accent: 'acid',

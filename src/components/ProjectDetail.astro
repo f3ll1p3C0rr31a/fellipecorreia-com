@@ -52,6 +52,23 @@ const home = localizePath(lang, '/');
     </div>
   </header>
 
+  {/* screenshot */}
+  {
+    project.shot && (
+      <a href={project.demo} target="_blank" rel="noopener" class="mt-8 block border border-royal/50">
+        <img
+          src={project.shot}
+          alt={`Screenshot — ${project.title}`}
+          width="900"
+          height="562"
+          loading="lazy"
+          decoding="async"
+          class="w-full object-cover object-top"
+        />
+      </a>
+    )
+  }
+
   {/* corpo do case */}
   <div class="mt-10 space-y-10">
     {

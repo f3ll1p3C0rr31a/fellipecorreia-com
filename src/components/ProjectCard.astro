@@ -18,12 +18,23 @@ const demoExternal = !!project.demo;
 ---
 
 <article class="group h-full">
-  <div
-    class:list={[
-      'corrupt-card flex h-full flex-col border border-royal/50 bg-royal/10 transition-colors',
-      compact ? 'p-4' : 'p-5',
-    ]}
-  >
+  <div class="corrupt-card flex h-full flex-col overflow-hidden border border-royal/50 bg-royal/10 transition-colors">
+    {/* screenshot do demo */}
+    {
+      project.shot && (
+        <img
+          src={project.shot}
+          alt={`Screenshot — ${project.title}`}
+          width="900"
+          height="562"
+          loading="lazy"
+          decoding="async"
+          class="aspect-[16/10] w-full border-b border-royal/50 object-cover object-top opacity-90 transition-opacity group-hover:opacity-100"
+        />
+      )
+    }
+
+    <div class:list={['flex flex-1 flex-col', compact ? 'p-4' : 'p-5']}>
     {/* topo */}
     <div class="flex items-center justify-between">
       <span class="font-mono text-[10px] tracking-widest text-dim">{project.asciiTag}</span>
@@ -86,6 +97,7 @@ const demoExternal = !!project.demo;
           </span>
         )
       }
+    </div>
     </div>
   </div>
 </article>
