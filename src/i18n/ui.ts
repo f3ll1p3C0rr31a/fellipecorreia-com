@@ -16,7 +16,7 @@ export const ui = {
 
     'hero.role': 'Full-Stack Dev  ·  DevOps  ·  Self-Hosted Everything',
     'hero.tagline':
-      'Rodo um datacenter no meu quarto: 70+ containers, servidor de e-mail próprio, CI/CD self-hosted, IA local. Escrevo o código, subo o deploy — e o uptime é problema meu.',
+      'Desenvolvedor full-stack com homelab de produção: mais de 70 containers, CI/CD próprio e infraestrutura self-hosted de ponta a ponta — do desenvolvimento à operação.',
     'hero.cv.dev': 'CV Infra/Dev',
     'hero.cv.growth': 'CV Growth',
     'hero.available': 'aberto a vagas de infra / dev',
@@ -115,7 +115,7 @@ export const ui = {
 
     'hero.role': 'Full-Stack Dev  ·  DevOps  ·  Self-Hosted Everything',
     'hero.tagline':
-      "I run a datacenter in my bedroom: 70+ containers, my own mail server, self-hosted CI/CD, local AI. I write the code, ship the deploy — and uptime is my problem.",
+      'Full-stack developer with a production homelab: 70+ containers, my own CI/CD and end-to-end self-hosted infrastructure — from development to operations.',
     'hero.cv.dev': 'Infra/Dev CV',
     'hero.cv.growth': 'Growth CV',
     'hero.available': 'open to infra / dev roles',
