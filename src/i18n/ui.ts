@@ -29,13 +29,13 @@ export const ui = {
     'footer.built': 'construído com Astro, servido self-hosted no Jupiter',
     'footer.rights': 'Todos os direitos reservados.',
 
-    'about.kicker': 'Não uso a nuvem dos outros. Construí a minha.',
+    'about.kicker': 'Desenvolvimento full-stack com operação real de infraestrutura.',
     'about.p1':
-      'Sou desenvolvedor full-stack e o cara de infra que a maioria das empresas terceiriza. Aprendi na marra, mantendo um homelab de produção com mais de 70 containers rodando 24/7 — não é lab de estudo: são serviços críticos que quebram às 3 da manhã e eu conserto.',
+      'Sou desenvolvedor full-stack com experiência prática em infraestrutura e DevOps. Mantenho um homelab de produção com mais de 70 containers em operação contínua — serviços reais, com uptime, monitoramento e resposta a incidentes, não um ambiente de estudo.',
     'about.p2':
-      'Antes de virar dev, vieram anos em marketing e growth — operação, dados, e-commerce. Isso não é ruído no meu currículo: é o que me faz entender por que o software existe, o que o negócio precisa e onde está o dinheiro. Pouco dev enxerga isso.',
+      'Antes da transição para tecnologia, atuei anos em marketing, growth e e-commerce, lidando com operação, dados e métricas de negócio. Essa vivência me dá algo que boa parte dos desenvolvedores não tem: clareza sobre o propósito do software e o resultado que ele precisa gerar.',
     'about.p3':
-      'Agora, no último semestre de ADS, transformo essa bagagem em código: full-stack em Next.js/TypeScript e uma stack de DevOps self-hosted de ponta a ponta — do Docker ao Cloudflare Tunnel, do CI/CD ao backup automatizado.',
+      'No último semestre de Análise e Desenvolvimento de Sistemas, consolido as duas frentes: aplicações full-stack em Next.js e TypeScript e uma stack de DevOps self-hosted de ponta a ponta — de containers e CI/CD a reverse proxy e backups automatizados.',
     'about.status.label': 'status atual',
     'about.status.value': 'ADS · último semestre · caçando vaga de infra/dev',
 
@@ -128,13 +128,13 @@ export const ui = {
     'footer.built': 'built with Astro, self-hosted on Jupiter',
     'footer.rights': 'All rights reserved.',
 
-    'about.kicker': "I don't use someone else's cloud. I built my own.",
+    'about.kicker': 'Full-stack development backed by real infrastructure operations.',
     'about.p1':
-      "I'm a full-stack developer and the infra guy most companies outsource. I learned it the hard way, running a production homelab with 70+ containers up 24/7 — not a study lab: real critical services that break at 3am, and I'm the one who fixes them.",
+      "I'm a full-stack developer with hands-on infrastructure and DevOps experience. I run a production homelab with 70+ containers in continuous operation — real services with uptime, monitoring and incident response, not a study environment.",
     'about.p2':
-      "Before becoming a dev came years in marketing and growth — operations, data, e-commerce. That's not noise on my résumé: it's what makes me understand why software exists, what the business needs, and where the money is. Few devs see that.",
+      "Before moving into tech, I spent years in marketing, growth and e-commerce, working with operations, data and business metrics. That background gives me something many developers lack: clarity about why software exists and the outcome it needs to drive.",
     'about.p3':
-      "Now, in the final semester of my CS degree, I turn that background into code: full-stack in Next.js/TypeScript and an end-to-end self-hosted DevOps stack — from Docker to Cloudflare Tunnel, from CI/CD to automated backups.",
+      "In the final semester of my Systems Analysis & Development degree, I bring both together: full-stack applications in Next.js and TypeScript and an end-to-end self-hosted DevOps stack — from containers and CI/CD to reverse proxy and automated backups.",
     'about.status.label': 'current status',
     'about.status.value': 'CS degree · final semester · hunting an infra/dev role',
 

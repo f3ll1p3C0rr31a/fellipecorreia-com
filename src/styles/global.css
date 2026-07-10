@@ -129,6 +129,39 @@ a, button, [role='button'], label, summary {
   }
 }
 
+/* ═══ boot → hero: desligamento estilo monitor CRT ═══ */
+
+.crt-off {
+  animation: crt-off 0.72s cubic-bezier(0.7, 0, 0.25, 1) forwards;
+  transform-origin: center center;
+  pointer-events: none;
+  overflow: hidden;
+}
+.crt-off::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--color-bone);
+  mix-blend-mode: screen;
+  opacity: 0;
+  animation: crt-flash 0.72s ease-out forwards;
+}
+@keyframes crt-off {
+  0%   { transform: scale(1); filter: brightness(1) contrast(1); }
+  7%   { transform: translateX(4px) scaleY(1.02); filter: brightness(1.4) contrast(1.6); }
+  12%  { transform: translateX(-6px) skewX(-1.2deg); filter: brightness(0.9) contrast(2); }
+  18%  { transform: translateX(2px); filter: brightness(1.2) contrast(1.2); }
+  24%  { transform: translateX(0) scale(1); filter: brightness(1); }
+  58%  { transform: scaleY(0.028) scaleX(1.06); filter: brightness(2.6) contrast(0.7); }
+  80%  { transform: scaleY(0.006) scaleX(1.16); filter: brightness(5); }
+  100% { transform: scaleY(0) scaleX(1.3); opacity: 0; filter: brightness(9); }
+}
+@keyframes crt-flash {
+  0%, 45% { opacity: 0; }
+  62%     { opacity: 0.55; }
+  100%    { opacity: 0; }
+}
+
 /* ═══ card de projeto: corrupção no hover (CSS-only) ═══
    Título "corrompe" com RGB split por ~0.4s e estabiliza;
    a borda pisca em acid. Sem JS por card.                */

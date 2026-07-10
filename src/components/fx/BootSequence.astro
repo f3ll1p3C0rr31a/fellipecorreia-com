@@ -45,12 +45,21 @@ const { skipLabel, lines } = Astro.props;
         sessionStorage.setItem('fbc-booted', '1');
         removeEventListener('keydown', finish);
         this.removeEventListener('click', finish);
-        this.style.transition = 'opacity 0.35s steps(4)';
-        this.style.opacity = '0';
-        setTimeout(() => {
+
+        const done = () => {
           document.documentElement.style.overflow = '';
           this.remove();
-        }, 380);
+        };
+
+        if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          done();
+          return;
+        }
+
+        // desligamento estilo monitor CRT + som de power-off
+        window.dispatchEvent(new CustomEvent('fbc:crt-off'));
+        this.classList.add('crt-off');
+        setTimeout(done, 720);
       };
 
       const tick = () => {

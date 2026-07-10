@@ -6,6 +6,7 @@ import '../styles/global.css';
 
 import GrainOverlay from '../components/fx/GrainOverlay.astro';
 import CustomCursor from '../components/fx/CustomCursor.astro';
+import AudioAmbient from '../components/fx/AudioAmbient.astro';
 import { getLangFromUrl, useTranslations, altLangPath } from '../i18n/utils';
 import { site } from '../data/site';
 
@@ -74,5 +75,6 @@ const pageTitle = title ? `${title} — ${t('meta.title')}` : t('meta.title');
     <slot />
     <GrainOverlay />
     <CustomCursor />
+    <AudioAmbient />
   </body>
 </html>

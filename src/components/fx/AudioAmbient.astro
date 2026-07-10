@@ -1,0 +1,150 @@
+---
+/**
+ * Ambiência sonora CRT (hum grave + chiado) sintetizada via Web Audio —
+ * sem arquivos. Começa no 1º gesto do usuário (regra de autoplay),
+ * botão discreto pra desligar, preferência salva. Um blip de power-off
+ * dispara junto com a transição do boot (evento fbc:crt-off).
+ */
+import { getLangFromUrl } from '../../i18n/utils';
+const lang = getLangFromUrl(Astro.url);
+const label = lang === 'pt' ? 'som ambiente' : 'ambient sound';
+---
+
+<audio-ambient
+  class="fixed bottom-4 left-4 z-70"
+  data-label={label}
+>
+  <button
+    type="button"
+    aria-label={label}
+    aria-pressed="true"
+    class="group flex items-center gap-2 border border-royal/50 bg-void/70 px-2.5 py-1.5 font-mono text-[10px] text-ash backdrop-blur-sm transition-colors hover:border-acid hover:text-acid"
+  >
+    <span class="snd-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+    <span class="snd-label">{label}</span>
+  </button>
+</audio-ambient>
+
+<style>
+  .snd-bars { display: inline-flex; align-items: flex-end; gap: 1.5px; height: 10px; }
+  .snd-bars i {
+    width: 2px; height: 30%;
+    background: currentColor;
+    opacity: 0.6;
+  }
+  audio-ambient[data-on] .snd-bars i { animation: snd-eq 0.9s ease-in-out infinite; }
+  audio-ambient[data-on] .snd-bars i:nth-child(2) { animation-delay: 0.15s; }
+  audio-ambient[data-on] .snd-bars i:nth-child(3) { animation-delay: 0.3s; }
+  audio-ambient[data-on] .snd-bars i:nth-child(4) { animation-delay: 0.45s; }
+  audio-ambient:not([data-on]) .snd-bars i { height: 15%; opacity: 0.35; }
+  @keyframes snd-eq { 0%, 100% { height: 20%; } 50% { height: 95%; } }
+  @media (prefers-reduced-motion: reduce) {
+    audio-ambient[data-on] .snd-bars i { animation: none; height: 50%; }
+  }
+</style>
+
+<script>
+  class AudioAmbient extends HTMLElement {
+    #ctx: AudioContext | null = null;
+    #master: GainNode | null = null;
+    #started = false;
+    #muted = false;
+    #target = 0.05;
+
+    connectedCallback() {
+      const btn = this.querySelector('button')!;
+      this.#muted = localStorage.getItem('fbc-sound') === 'off';
+      this.#reflect();
+
+      const kick = () => {
+        removeEventListener('pointerdown', kick);
+        removeEventListener('keydown', kick);
+        if (!this.#muted) this.#start();
+      };
+      if (!this.#muted) {
+        addEventListener('pointerdown', kick, { once: true });
+        addEventListener('keydown', kick, { once: true });
+      }
+
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.#muted = !this.#muted;
+        localStorage.setItem('fbc-sound', this.#muted ? 'off' : 'on');
+        if (this.#muted) this.#ramp(0);
+        else this.#start();
+        this.#reflect();
+      });
+
+      addEventListener('fbc:crt-off', () => this.#powerBlip());
+    }
+
+    #reflect() {
+      const btn = this.querySelector('button')!;
+      if (this.#muted) this.removeAttribute('data-on');
+      else this.setAttribute('data-on', '');
+      btn.setAttribute('aria-pressed', String(!this.#muted));
+    }
+
+    #ensure() {
+      if (this.#ctx) return;
+      const AC = window.AudioContext || (window as any).webkitAudioContext;
+      this.#ctx = new AC();
+      this.#master = this.#ctx.createGain();
+      this.#master.gain.value = 0;
+      this.#master.connect(this.#ctx.destination);
+    }
+
+    #start() {
+      this.#ensure();
+      this.#ctx!.resume();
+      if (!this.#started) {
+        this.#started = true;
+        const ctx = this.#ctx!;
+        // hum grave (60Hz + leve 120Hz)
+        [60, 120].forEach((f, i) => {
+          const osc = ctx.createOscillator();
+          osc.type = 'sine';
+          osc.frequency.value = f;
+          const g = ctx.createGain();
+          g.gain.value = i === 0 ? 0.5 : 0.18;
+          osc.connect(g).connect(this.#master!);
+          osc.start();
+        });
+        // chiado (ruído branco -> passa-baixa)
+        const buf = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
+        const d = buf.getChannelData(0);
+        for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+        const noise = ctx.createBufferSource();
+        noise.buffer = buf;
+        noise.loop = true;
+        const lp = ctx.createBiquadFilter();
+        lp.type = 'lowpass';
+        lp.frequency.value = 2200;
+        const ng = ctx.createGain();
+        ng.gain.value = 0.28;
+        noise.connect(lp).connect(ng).connect(this.#master!);
+        noise.start();
+      }
+      this.#ramp(this.#target);
+    }
+
+    #ramp(v: number) {
+      if (!this.#ctx || !this.#master) return;
+      const t = this.#ctx.currentTime;
+      this.#master.gain.cancelScheduledValues(t);
+      this.#master.gain.setTargetAtTime(v, t, 0.5);
+    }
+
+    #powerBlip() {
+      if (this.#muted || !this.#ctx || !this.#master) return;
+      const t = this.#ctx.currentTime;
+      const g = this.#master.gain;
+      g.cancelScheduledValues(t);
+      g.setValueAtTime(Math.max(g.value, 0.001), t);
+      g.linearRampToValueAtTime(0.14, t + 0.05);
+      g.exponentialRampToValueAtTime(0.0005, t + 0.5);
+      setTimeout(() => this.#ramp(this.#target), 650);
+    }
+  }
+  customElements.define('audio-ambient', AudioAmbient);
+</script>
