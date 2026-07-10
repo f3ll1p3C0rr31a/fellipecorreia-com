@@ -4,7 +4,8 @@ import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://fellipecorreia.com',
+  // apex (fellipecorreia.com) ainda não tem DNS; só o www resolve — canônico no www
+  site: 'https://www.fellipecorreia.com',
   output: 'static',
   i18n: {
     locales: ['pt', 'en'],
