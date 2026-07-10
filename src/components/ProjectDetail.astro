@@ -23,7 +23,7 @@ const home = localizePath(lang, '/');
   {/* cabeçalho */}
   <header class="mt-6 border-b border-royal/40 pb-8">
     <div class="flex items-center gap-4">
-      <span class="font-mono text-xs tracking-widest text-royal">{project.asciiTag}</span>
+      <span class="font-mono text-xs tracking-widest text-dim">{project.asciiTag}</span>
       <StatusBadge status={project.status} />
     </div>
     <h1 class="mt-3 font-display text-4xl font-extrabold uppercase tracking-tight sm:text-5xl">
@@ -46,7 +46,7 @@ const home = localizePath(lang, '/');
             [{t('cta.source')}] ↗
           </a>
         ) : (
-          <span class="text-royal">[{t('cta.source')}] ⊘ {t('projects.source.private')}</span>
+          <span class="text-dim">[{t('cta.source')}] ⊘ {t('projects.source.private')}</span>
         )
       }
     </div>

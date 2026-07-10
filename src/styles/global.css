@@ -8,6 +8,7 @@
   --color-volt: #ffcc00;      /* accent secundário      */
   --color-bone: #e8e4f0;      /* texto principal        */
   --color-ash: #9a8fc0;       /* texto secundário       */
+  --color-dim: #8f78c8;       /* texto terciário legível (WCAG AA) */
   --color-toxic: #aaff00;     /* verde-ácido: status "online" */
 
   /* ── tipografia ─────────────────────────────────── */

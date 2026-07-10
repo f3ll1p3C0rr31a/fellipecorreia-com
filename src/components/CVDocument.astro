@@ -19,10 +19,10 @@ const stack = cvStack();
     </h1>
     <p class="mt-1 font-mono text-xs text-acid sm:text-sm">{meta.title[lang]}</p>
     <p class="mt-3 flex flex-wrap gap-x-3 gap-y-1 font-mono text-[11px] text-ash">
-      <span>{site.location[lang]}</span><span class="text-royal">·</span>
-      <a href={`mailto:${site.email}`} class="hover:text-acid">{site.email}</a><span class="text-royal">·</span>
-      <span>{site.phone}</span><span class="text-royal">·</span>
-      <a href={site.social.github} class="hover:text-acid">github.com/f3ll1p3C0rr31a</a><span class="text-royal">·</span>
+      <span>{site.location[lang]}</span><span class="text-dim">·</span>
+      <a href={`mailto:${site.email}`} class="hover:text-acid">{site.email}</a><span class="text-dim">·</span>
+      <span>{site.phone}</span><span class="text-dim">·</span>
+      <a href={site.social.github} class="hover:text-acid">github.com/f3ll1p3C0rr31a</a><span class="text-dim">·</span>
       <a href={site.social.linkedin} class="hover:text-acid">/in/f3llipecorreia</a>
     </p>
   </header>
@@ -51,7 +51,7 @@ const stack = cvStack();
         <div>
           <p class="font-mono text-xs font-bold text-bone">
             {p.title}
-            <span class="font-normal text-royal"> · {p.stack.slice(0, 5).join(', ')}</span>
+            <span class="font-normal text-dim"> · {p.stack.slice(0, 5).join(', ')}</span>
           </p>
           <p class="font-mono text-[11px] leading-relaxed text-ash">{p.tagline[lang]}</p>
         </div>
@@ -80,14 +80,14 @@ const stack = cvStack();
         <div>
           <p class="flex flex-wrap items-baseline gap-x-2 font-mono text-xs">
             <span class="font-bold text-bone">{job.role[lang]}</span>
-            <span class="text-royal">·</span>
+            <span class="text-dim">·</span>
             <span class="text-acid">{job.company}</span>
-            {job.brands && <span class="text-royal">({job.brands})</span>}
+            {job.brands && <span class="text-dim">({job.brands})</span>}
             <span class="ml-auto text-ash">{job.period[lang]} · {job.location}</span>
           </p>
           <ul class="mt-1 space-y-0.5">
             {job.highlights[lang].map((h) => (
-              <li class="flex gap-2 font-mono text-[11px] leading-relaxed text-bone/80"><span class="text-royal">▹</span>{h}</li>
+              <li class="flex gap-2 font-mono text-[11px] leading-relaxed text-bone/80"><span class="text-dim">▹</span>{h}</li>
             ))}
           </ul>
         </div>
@@ -113,7 +113,7 @@ const stack = cvStack();
     <h2 class="cv-h2">{t('cv.sec.languages')}</h2>
     <p class="font-mono text-xs text-bone/90">
       {cvLanguages.map((l, i) => (
-        <>{i > 0 && <span class="text-royal"> · </span>}{l.name[lang]} <span class="text-ash">({l.level[lang]})</span></>
+        <>{i > 0 && <span class="text-dim"> · </span>}{l.name[lang]} <span class="text-ash">({l.level[lang]})</span></>
       ))}
     </p>
   </section>

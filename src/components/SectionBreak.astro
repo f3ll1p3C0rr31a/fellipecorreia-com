@@ -20,14 +20,14 @@ const patterns = {
 <div class="mx-auto max-w-6xl overflow-hidden px-4 py-8 sm:px-6" aria-hidden="true">
   {
     label ? (
-      <div class="flex items-center gap-3 font-mono text-xs text-royal">
-        <span class="whitespace-nowrap text-acid/70">{`// ${label}`}</span>
+      <div class="flex items-center gap-3 font-mono text-xs text-dim">
+        <span class="whitespace-nowrap text-acid">{`// ${label}`}</span>
         <span class="min-w-0 flex-1 select-none overflow-hidden text-ellipsis whitespace-nowrap">
           {patterns[variant]}
         </span>
       </div>
     ) : (
-      <div class="select-none overflow-hidden whitespace-nowrap text-center font-mono text-xs leading-none text-royal">
+      <div class="select-none overflow-hidden whitespace-nowrap text-center font-mono text-xs leading-none text-dim">
         {patterns[variant]}
       </div>
     )

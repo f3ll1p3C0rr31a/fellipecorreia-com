@@ -13,7 +13,7 @@ const year = new Date().getFullYear();
       <p class="text-bone">
         <span class="text-acid">{site.handle}</span>:~$ <span class="text-ash">echo $STATUS</span>
       </p>
-      <p class="text-ash/70">{t('footer.built')}</p>
+      <p class="text-ash">{t('footer.built')}</p>
     </div>
 
     <div class="flex flex-col gap-1 sm:items-end">
@@ -24,7 +24,7 @@ const year = new Date().getFullYear();
         <a href={localizePath(lang, '/uses')} class="hover:text-acid">uses</a>
         <a href={localizePath(lang, '/cv')} class="text-volt hover:text-acid">cv</a>
       </div>
-      <p class="text-royal">
+      <p class="text-dim">
         © {year} {site.shortName} — {t('footer.rights')}
       </p>
     </div>

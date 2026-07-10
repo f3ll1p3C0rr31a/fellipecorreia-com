@@ -26,7 +26,7 @@ const demoExternal = !!project.demo;
   >
     {/* topo */}
     <div class="flex items-center justify-between">
-      <span class="font-mono text-[10px] tracking-widest text-royal">{project.asciiTag}</span>
+      <span class="font-mono text-[10px] tracking-widest text-dim">{project.asciiTag}</span>
       <StatusBadge status={project.status} />
     </div>
 
@@ -81,7 +81,7 @@ const demoExternal = !!project.demo;
             [{t('cta.source')}] ↗
           </a>
         ) : (
-          <span class="text-royal" title={t('projects.source.private')}>
+          <span class="text-dim" title={t('projects.source.private')}>
             [{t('cta.source')}] ⊘
           </span>
         )

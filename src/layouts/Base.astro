@@ -7,6 +7,20 @@ import '../styles/global.css';
 import GrainOverlay from '../components/fx/GrainOverlay.astro';
 import CustomCursor from '../components/fx/CustomCursor.astro';
 import { getLangFromUrl, useTranslations, altLangPath } from '../i18n/utils';
+import { site } from '../data/site';
+
+const personLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.name,
+  url: 'https://fellipecorreia.com',
+  image: 'https://fellipecorreia.com/og/cover.png',
+  jobTitle: 'Full-Stack Developer & DevOps',
+  email: `mailto:${site.email}`,
+  sameAs: [site.social.github, site.social.linkedin],
+  address: { '@type': 'PostalAddress', addressLocality: 'Brasília', addressCountry: 'BR' },
+  knowsAbout: ['DevOps', 'Docker', 'Linux', 'CI/CD', 'Next.js', 'TypeScript', 'Self-hosting', 'Nginx', 'PostgreSQL'],
+};
 
 interface Props {
   title?: string;
@@ -47,6 +61,7 @@ const pageTitle = title ? `${title} — ${t('meta.title')}` : t('meta.title');
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description ?? t('meta.description')} />
     <meta name="twitter:image" content={new URL('/og/cover.png', Astro.site)} />
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(personLd)} />
   </head>
   <body class="scanlines bg-void font-mono text-bone antialiased">
     <slot />

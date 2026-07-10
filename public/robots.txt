@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://fellipecorreia.com/sitemap-index.xml

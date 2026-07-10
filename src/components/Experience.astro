@@ -29,10 +29,10 @@ const t = useTranslations(lang);
 
           <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
             <h3 class="font-display text-lg font-bold uppercase tracking-tight text-bone">{job.company}</h3>
-            {job.brands && <span class="font-mono text-[11px] text-royal">{job.brands}</span>}
+            {job.brands && <span class="font-mono text-[11px] text-dim">{job.brands}</span>}
             <span class="ml-auto font-mono text-xs text-ash">
               <span class:list={[job.current && 'text-toxic']}>{job.period[lang]}</span>
-              <span class="text-royal">·</span> {job.location}
+              <span class="text-dim">·</span> {job.location}
             </span>
           </div>
           <p class="mt-0.5 font-mono text-xs text-acid">{job.role[lang]}</p>
@@ -40,7 +40,7 @@ const t = useTranslations(lang);
           <ul class="mt-3 space-y-1.5">
             {job.highlights[lang].map((h) => (
               <li class="flex gap-2 font-mono text-xs leading-relaxed text-ash sm:text-sm">
-                <span class="text-royal">▹</span>
+                <span class="text-dim">▹</span>
                 {h}
               </li>
             ))}
