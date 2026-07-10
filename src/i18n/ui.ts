@@ -62,6 +62,7 @@ export const ui = {
     'homelab.diagram': 'arquitetura de rede',
     'homelab.services': 'serviços em produção',
     'homelab.note': 'exposição só via Cloudflare Tunnel — zero portas abertas no roteador.',
+    'homelab.forge': 'até meu git é self-hosted — Forgejo espelhando os repos, rodando agora:',
 
     'exp.lead': 'Anos em marketing e growth antes de migrar pro código. Não é o que quero fazer agora — é a vantagem injusta que levo pro dev.',
     'exp.current': 'atual',
@@ -160,6 +161,7 @@ export const ui = {
     'homelab.diagram': 'network architecture',
     'homelab.services': 'services in production',
     'homelab.note': 'exposed only through Cloudflare Tunnel — zero open ports on the router.',
+    'homelab.forge': 'even my git is self-hosted — Forgejo mirroring the repos, running right now:',
 
     'exp.lead': "Years in marketing and growth before moving into code. Not what I want to do now — it's the unfair advantage I bring to dev.",
     'exp.current': 'current',

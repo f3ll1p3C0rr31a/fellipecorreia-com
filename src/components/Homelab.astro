@@ -63,4 +63,16 @@ const stats = homelabStats(lang);
       ))
     }
   </div>
+
+  {/* callout Forgejo self-hosted */}
+  <a
+    href={site.forge}
+    target="_blank"
+    rel="noopener"
+    class="group mt-8 flex flex-wrap items-center gap-x-3 gap-y-1 border border-toxic/40 bg-toxic/5 px-4 py-3 font-mono text-xs transition-colors hover:border-toxic"
+  >
+    <span class="text-toxic">▸ git://</span>
+    <span class="text-ash">{t('homelab.forge')}</span>
+    <span class="font-semibold text-bone transition-colors group-hover:text-toxic">git.fellipecorreia.com ↗</span>
+  </a>
 </section>
